@@ -8,6 +8,7 @@ namespace Models
 {
     public class CharacterSuperModel
     {
+        public int CharacterID { get; set; }
         public string CharacterName { get; set; }
         public string CurrentLocation { get; set; }
         public int CharacterBaseHealth { get; set; }

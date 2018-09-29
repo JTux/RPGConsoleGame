@@ -10,12 +10,13 @@ namespace Services
     public class GameService
     {
         private CharacterSuperModel characterSuperModel;
-        private SaveServices saveServices;
+        private SaveServices saveServices = new SaveServices();
         private Random rand = new Random();
         private ExploringServices exploringServices;
 
         public void Run()
         {
+            saveServices.LoadSettings();
             exploringServices = new ExploringServices(rand);
             RunMenu();
         }
@@ -55,6 +56,17 @@ namespace Services
             }
         }
 
+        private void CreateNewGame()
+        {
+            SaveServices.SaveGames++;
+            characterSuperModel = new CharacterSuperModel
+            {
+                CharacterID = SaveServices.SaveGames,
+            };
+            saveServices.SaveGame(characterSuperModel);
+            Play();
+        }
+
         private void PrintMenuOptions()
         {
             NewPage($"MENU TITLE" +
@@ -68,7 +80,6 @@ namespace Services
 
         private void Play()
         {
-            characterSuperModel = new CharacterSuperModel();
             var counter = 0;
             var keepPlaying = true;
             while (keepPlaying)

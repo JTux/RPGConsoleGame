@@ -9,7 +9,7 @@ namespace Services
 {
     public class CityServices
     {
-        private InventoryServices _inventoryServices = new InventoryServices();
+        private InventoryServices _inventoryServices;
         private ExploringServices _exploringServices;
         private CharacterSuperModel _characterSuperModel;
 
@@ -17,6 +17,7 @@ namespace Services
         {
             _characterSuperModel = characterSuperModel;
             _exploringServices = exploringServices;
+            _inventoryServices = new InventoryServices(_characterSuperModel);
         }
 
         private int healthFromInnBed = 8;
