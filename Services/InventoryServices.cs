@@ -38,6 +38,11 @@ namespace Services
             return false;
         }
 
+        public void AccessChest()
+        {
+
+        }
+
         private bool SaveAndQuit()
         {
             var confirm = false;

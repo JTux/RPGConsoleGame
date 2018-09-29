@@ -91,7 +91,7 @@ namespace Services
 
         private bool EnterVillage()
         {
-            VillageServices villageServices = new VillageServices();
+            VillageServices villageServices = new VillageServices(characterSuperModel);
             return villageServices.RunMenu();
         }
 

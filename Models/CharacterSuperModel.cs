@@ -10,5 +10,8 @@ namespace Models
     {
         public string CharacterName { get; set; }
         public string CurrentLocation { get; set; }
+        public int CharacterBaseHealth { get; set; }
+        public int CharacterMaxHealth { get; set; }
+        public int CharacterHealth { get; set; }
     }
 }
