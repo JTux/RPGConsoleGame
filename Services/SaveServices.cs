@@ -48,7 +48,7 @@ namespace Services
         {
             StreamWriter characterFile = new StreamWriter($"./Files/Saves/Game{superModel.CharacterID}.txt");
 
-            characterFile.Write($"GameID: {superModel.CharacterID},");
+            characterFile.Write($"CharacterID: {superModel.CharacterID},");
             characterFile.Write($"CharacterName: {superModel.CharacterName},");
             characterFile.Write($"CurrentLocation: {superModel.CurrentLocation},");
             characterFile.Write($"CharacterBaseHealth: {superModel.CharacterBaseHealth},");
@@ -59,10 +59,96 @@ namespace Services
             UpdateSettings();
         }
 
-        public void LoadSave()
+        public void PrintSaves()
         {
+            CharacterSuperModel loadedSuperModel = new CharacterSuperModel();
             CreateDirectories();
-            UpdateSettings();
+            for (int i = 1; i <= SaveGames; i++)
+            {
+                if (File.Exists($"./Files/Saves/Game{i}.txt"))
+                {
+                    string saveGameTraits = File.ReadAllText($"./Files/Saves/Game{i}.txt");
+                    string[] loadedTraits = saveGameTraits.Split(',');
+
+                    foreach (string trait in loadedTraits)
+                    {
+                        if (trait.Contains("CharacterID:"))
+                        {
+                            var loadID = trait.Substring(trait.IndexOf(' ') + 1);
+                            loadedSuperModel.CharacterID = int.Parse(loadID);
+                        }
+                        else if (trait.Contains("CharacterName:"))
+                        {
+                            var loadCharacterName = trait.Substring(trait.IndexOf(' ') + 1);
+                            loadedSuperModel.CharacterName = loadCharacterName;
+                        }
+                        else if (trait.Contains("CurrentLocation:"))
+                        {
+                            var loadCharacterLocation = trait.Substring(trait.IndexOf(' ') + 1);
+                            loadedSuperModel.CurrentLocation = loadCharacterLocation;
+                        }
+                    }
+                    Console.WriteLine($"{loadedSuperModel.CharacterID}) {loadedSuperModel.CharacterName} currently in the {loadedSuperModel.CurrentLocation}.");
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine($"{i}) Error loading save files.");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                }
+            }
+        }
+
+        public CharacterSuperModel LoadSave(int saveID)
+        {
+            CharacterSuperModel loadedSuperModel = new CharacterSuperModel();
+            CreateDirectories();
+            for (int i = 1; i <= SaveGames; i++)
+            {
+                if (File.Exists($"./Files/Saves/Game{i}.txt"))
+                {
+                    string saveGameTraits = File.ReadAllText($"./Files/Saves/Game{i}.txt");
+                    string[] loadedTraits = saveGameTraits.Split(',');
+
+                    foreach (string trait in loadedTraits)
+                    {
+                        if (trait.Contains("CharacterID:"))
+                        {
+                            var loadID = trait.Substring(trait.IndexOf(' ') + 1);
+                            loadedSuperModel.CharacterID = int.Parse(loadID);
+                        }
+                        else if (trait.Contains("CharacterName:"))
+                        {
+                            var loadCharacterName = trait.Substring(trait.IndexOf(' ') + 1);
+                            loadedSuperModel.CharacterName = loadCharacterName;
+                        }
+                        else if (trait.Contains("CurrentLocation:"))
+                        {
+                            var loadCharacterLocation = trait.Substring(trait.IndexOf(' ') + 1);
+                            loadedSuperModel.CurrentLocation = loadCharacterLocation;
+                        }
+                        else if (trait.Contains("CharacterBaseHealth:"))
+                        {
+                            var loadBaseHealth = trait.Substring(trait.IndexOf(' ') + 1);
+                            loadedSuperModel.CharacterBaseHealth = int.Parse(loadBaseHealth);
+                        }
+                        else if (trait.Contains("CharacterMaxHealth:"))
+                        {
+                            var loadMaxHealth = trait.Substring(trait.IndexOf(' ') + 1);
+                            loadedSuperModel.CharacterMaxHealth = int.Parse(loadMaxHealth);
+                        }
+                        else if (trait.Contains("CharacterHealth:"))
+                        {
+                            var loadHealth = trait.Substring(trait.IndexOf(' ') + 1);
+                            loadedSuperModel.CharacterHealth = int.Parse(loadHealth);
+                        }
+                    }
+                }
+                else Console.WriteLine("Game files corrupt");
+                if (i == saveID) break;
+            }
+
+            return loadedSuperModel;
         }
 
         public void Reset()
