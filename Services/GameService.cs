@@ -1,6 +1,7 @@
 ﻿using Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,11 +33,7 @@ namespace Services
                 {
                     case 1:
                         //-- Load Game
-                        NewPage("Choose Save Game:");
-                        saveServices.PrintSaves();
-                        var saveID = ParseIntput();
-                        if (saveID > 0 && saveID <= SaveServices.SaveGames) Play(saveServices.LoadSave(saveID));
-                        Console.ReadLine();
+                        LoadGame();
                         break;
                     case 2:
                         //-- New Game
@@ -56,6 +53,27 @@ namespace Services
                         Console.WriteLine("Invalid input.");
                         Console.ReadKey();
                         break;
+                }
+            }
+        }
+
+        private void LoadGame()
+        {
+            var foundGame = false;
+            while (!foundGame)
+            {
+                NewPage("Choose Save Game:");
+                saveServices.PrintSaves();
+                var saveID = ParseIntput();
+                if (saveID > 0 && saveID <= SaveServices.SaveGames && File.Exists($"./Files/Saves/Game{saveID}.txt"))
+                {
+                    foundGame = true;
+                    Play(saveServices.LoadSave(saveID));
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input");
+                    Console.ReadKey();
                 }
             }
         }

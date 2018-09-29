@@ -88,9 +88,14 @@ namespace Services
                             loadedSuperModel.CurrentLocation = loadCharacterLocation;
                         }
                     }
-                    Console.WriteLine($"{loadedSuperModel.CharacterID}) {loadedSuperModel.CharacterName} currently in the {loadedSuperModel.CurrentLocation}");
+                    Console.WriteLine($"{loadedSuperModel.CharacterID}) {loadedSuperModel.CharacterName} currently in the {loadedSuperModel.CurrentLocation}.");
                 }
-                else Console.WriteLine("Game files corrupt");
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine($"{i}) Error loading save files.");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                }
             }
         }
 
