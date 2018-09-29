@@ -9,12 +9,14 @@ namespace Services
 {
     public class CityServices
     {
-        private InventoryServices inventory = new InventoryServices();
+        private InventoryServices _inventoryServices = new InventoryServices();
+        private ExploringServices _exploringServices;
         private CharacterSuperModel _characterSuperModel;
 
-        public CityServices(CharacterSuperModel characterSuperModel)
+        public CityServices(CharacterSuperModel characterSuperModel, ExploringServices exploringServices)
         {
             _characterSuperModel = characterSuperModel;
+            _exploringServices = exploringServices;
         }
 
         private int healthFromInnBed = 8;
@@ -52,7 +54,7 @@ namespace Services
                         Console.ReadKey();
                         break;
                     case 5:
-                        bool leaveFromInv = inventory.OpenInventory();
+                        bool leaveFromInv = _inventoryServices.OpenInventory();
                         if (leaveFromInv) return false;
                         break;
                     case 6:
@@ -79,7 +81,7 @@ namespace Services
                 switch (GameService.ParseIntput())
                 {
                     case 1:
-                        GameService.NewPage("You Explore the area");
+                        _exploringServices.Explore();
                         Console.ReadKey();
                         output = false;
                         break;

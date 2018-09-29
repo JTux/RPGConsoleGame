@@ -10,11 +10,13 @@ namespace Services
     public class VillageServices
     {
         private InventoryServices _inventoryServices = new InventoryServices();
+        private ExploringServices _exploringServices;
         private CharacterSuperModel _characterSuperModel;
 
-        public VillageServices(CharacterSuperModel characterSuperModel)
+        public VillageServices(CharacterSuperModel characterSuperModel, ExploringServices exploringServices)
         {
             _characterSuperModel = characterSuperModel;
+            _exploringServices = exploringServices;
         }
 
         private int healthFromPlayerBed = 5;
@@ -98,7 +100,7 @@ namespace Services
                 switch (GameService.ParseIntput())
                 {
                     case 1:
-                        GameService.NewPage("You Explore the area");
+                        _exploringServices.Explore();
                         Console.ReadKey();
                         output = false;
                         break;

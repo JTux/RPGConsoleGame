@@ -10,11 +10,13 @@ namespace Services
     public class GameService
     {
         private CharacterSuperModel characterSuperModel;
-        private SaveServices saveServices = new SaveServices();
-        private ExploringServices exploringServices = new ExploringServices();
+        private SaveServices saveServices;
+        private Random rand = new Random();
+        private ExploringServices exploringServices;
 
         public void Run()
         {
+            exploringServices = new ExploringServices(rand);
             RunMenu();
         }
 
@@ -81,7 +83,7 @@ namespace Services
             if (n % 2 == 0)
             {
                 characterSuperModel.CurrentLocation = "village";
-                return EnterVillage();
+                return EnterVillage(n);
             }
             else
             {
@@ -90,15 +92,22 @@ namespace Services
             }
         }
 
-        private bool EnterVillage()
+        private bool EnterVillage(int num)
         {
-            VillageServices villageServices = new VillageServices(characterSuperModel);
+            if (num != 0)
+            {
+                exploringServices.Commute();
+                Console.ReadKey();
+            }
+            VillageServices villageServices = new VillageServices(characterSuperModel, exploringServices);
             return villageServices.RunMenu();
         }
 
         private bool EnterCity()
         {
-            CityServices cityServices = new CityServices(characterSuperModel);
+            exploringServices.Commute();
+            Console.ReadKey();
+            CityServices cityServices = new CityServices(characterSuperModel, exploringServices);
             return cityServices.RunMenu();
         }
 
