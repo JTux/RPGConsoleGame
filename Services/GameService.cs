@@ -9,24 +9,12 @@ namespace Services
 {
     public class GameService
     {
-        private CharacterSuperModel characterSuperModel;
+        private CharacterSuperModel characterSuperModel = new CharacterSuperModel();
         private SaveServices saveServices;
 
         public void Run()
         {
-            Play();
             RunMenu();
-        }
-
-        private void Play()
-        {
-            var n = 0;
-            while (true)
-            {
-                n++;
-                if (n % 2 == 0) EnterVillage();
-                else EnterCity();
-            }
         }
 
         private void RunMenu()
@@ -45,6 +33,7 @@ namespace Services
                         break;
                     case 2:
                         //-- New Game
+                        Play();
                         //CreateGame();
                         break;
                     case 3:
@@ -75,16 +64,41 @@ namespace Services
             Console.SetCursorPosition(0, 6);
         }
 
-        private void EnterVillage()
+        private void Play()
         {
-            VillageServices villageServices = new VillageServices();
-            villageServices.RunMenu();
+            var counter = 0;
+            var keepPlaying = true;
+            while (keepPlaying)
+            {
+                keepPlaying = SetLocation(counter);
+                counter++;
+            }
         }
 
-        private void EnterCity()
+        private bool SetLocation(int n)
+        {
+            if (n % 2 == 0)
+            {
+                characterSuperModel.CurrentLocation = "village";
+                return EnterVillage();
+            }
+            else
+            {
+                characterSuperModel.CurrentLocation = "city";
+                return EnterCity();
+            }
+        }
+
+        private bool EnterVillage()
+        {
+            VillageServices villageServices = new VillageServices();
+            return villageServices.RunMenu();
+        }
+
+        private bool EnterCity()
         {
             CityServices cityServices = new CityServices();
-            cityServices.RunMenu();
+            return cityServices.RunMenu();
         }
 
         public static void NewPage(string prompt)

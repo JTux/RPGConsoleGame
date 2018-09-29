@@ -8,7 +8,7 @@ namespace Services
 {
     public class CityServices
     {
-        public void RunMenu()
+        public bool RunMenu()
         {
             bool leaveCity = false;
             while (!leaveCity)
@@ -47,6 +47,7 @@ namespace Services
                         break;
                 }
             }
+            return leaveCity;
         }
 
         private bool LeaveCity()
