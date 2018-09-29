@@ -83,30 +83,30 @@ namespace Services
             if (n % 2 == 0)
             {
                 characterSuperModel.CurrentLocation = "village";
-                return EnterVillage(n);
+                if (n != 0)
+                {
+                    exploringServices.Commute();
+                    Console.ReadKey();
+                }
+                return EnterVillage();
             }
             else
             {
+                exploringServices.Commute();
+                Console.ReadKey();
                 characterSuperModel.CurrentLocation = "city";
                 return EnterCity();
             }
         }
 
-        private bool EnterVillage(int num)
+        private bool EnterVillage()
         {
-            if (num != 0)
-            {
-                exploringServices.Commute();
-                Console.ReadKey();
-            }
             VillageServices villageServices = new VillageServices(characterSuperModel, exploringServices);
             return villageServices.RunMenu();
         }
 
         private bool EnterCity()
         {
-            exploringServices.Commute();
-            Console.ReadKey();
             CityServices cityServices = new CityServices(characterSuperModel, exploringServices);
             return cityServices.RunMenu();
         }

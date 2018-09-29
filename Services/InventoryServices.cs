@@ -72,8 +72,8 @@ namespace Services
             while (!confirmed)
             {
                 GameService.NewPage("Are you sure you want to Save and Quit?" +
-                    "\n1) Yes, save and exit" +
-                    "\n2) No, return to game");
+                    "\n1) Yes I want to save and quit" +
+                    "\n2) No I want to return to the game");
                 confirmed = true;
                 switch (GameService.ParseIntput())
                 {
