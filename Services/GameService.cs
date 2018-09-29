@@ -14,9 +14,19 @@ namespace Services
 
         public void Run()
         {
-            EnterVillage();
-            EnterCity();
+            Play();
             RunMenu();
+        }
+
+        private void Play()
+        {
+            var n = 0;
+            while (true)
+            {
+                n++;
+                if (n % 2 == 0) EnterVillage();
+                else EnterCity();
+            }
         }
 
         private void RunMenu()

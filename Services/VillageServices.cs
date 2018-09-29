@@ -73,6 +73,10 @@ namespace Services
                         break;
                 }
             }
+        }
+
+        private void OpenInventory()
+        {
 
         }
 

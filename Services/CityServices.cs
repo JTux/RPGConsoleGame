@@ -49,38 +49,6 @@ namespace Services
             }
         }
 
-        private void GoHome()
-        {
-            var leaveHome = false;
-            while (!leaveHome)
-            {
-                PrintHomeMenu();
-                var input = GameService.ParseIntput();
-                switch (input)
-                {
-                    case 1:
-                        //-- Talk to Master
-                        GameService.NewPage("Open chest inventory");
-                        Console.ReadLine();
-                        break;
-                    case 2:
-                        //-- Go Home
-                        GameService.NewPage("You sleep in your bed");
-                        Console.ReadLine();
-                        break;
-                    case 3:
-                        //-- Leave Village
-                        leaveHome = true;
-                        break;
-                    default:
-                        Console.WriteLine("Invalid input");
-                        Console.ReadKey();
-                        break;
-                }
-            }
-
-        }
-
         private bool LeaveCity()
         {
             var leave = false;
@@ -127,14 +95,6 @@ namespace Services
                 "\n1) Explore the Surrounding Area" +
                 "\n2) Travel to Village" +
                 "\n3) Return to City");
-        }
-        private void PrintHomeMenu()
-        {
-            GameService.NewPage("Welcome home!" +
-                "\nWhat would you like to do?" +
-                "\n1) Access your Chest" +
-                "\n2) Sleep in your Bed (+5hp)" +
-                "\n3) Leave your Home");
         }
     }
 }
