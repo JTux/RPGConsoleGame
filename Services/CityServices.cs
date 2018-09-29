@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,14 @@ namespace Services
     public class CityServices
     {
         private InventoryServices inventory = new InventoryServices();
+        private CharacterSuperModel _characterSuperModel;
+
+        public CityServices(CharacterSuperModel characterSuperModel)
+        {
+            _characterSuperModel = characterSuperModel;
+        }
+
+        private int healthFromInnBed = 8;
 
         public bool RunMenu()
         {
@@ -32,6 +41,9 @@ namespace Services
                     case 3:
                         //-- Sleep at Inn
                         GameService.NewPage("You sleep at the Inn");
+                        _characterSuperModel.CharacterHealth += healthFromInnBed;
+                        GameService.NewPage($"You sleep in a comfy bed at the inn and recover {healthFromInnBed} HP." +
+                            $"\nYou now have {_characterSuperModel.CharacterHealth} HP.");
                         Console.ReadKey();
                         break;
                     case 4:
@@ -92,7 +104,7 @@ namespace Services
             GameService.NewPage($"THE CITY" +
                 $"\n1) Visit a Guild" +
                 $"\n2) Fight in the Arena" +
-                $"\n3) Sleep at the Inn" +
+                $"\n3) Sleep at the Inn (+{healthFromInnBed} HP)" +
                 $"\n4) Shop at General Store" +
                 $"\n5) Open Inventory" +
                 $"\n6) Leave City");

@@ -9,8 +9,9 @@ namespace Services
 {
     public class GameService
     {
-        private CharacterSuperModel characterSuperModel = new CharacterSuperModel();
-        private SaveServices saveServices;
+        private CharacterSuperModel characterSuperModel;
+        private SaveServices saveServices = new SaveServices();
+        private ExploringServices exploringServices = new ExploringServices();
 
         public void Run()
         {
@@ -34,7 +35,6 @@ namespace Services
                     case 2:
                         //-- New Game
                         Play();
-                        //CreateGame();
                         break;
                     case 3:
                         //-- Tutorial
@@ -66,6 +66,7 @@ namespace Services
 
         private void Play()
         {
+            characterSuperModel = new CharacterSuperModel();
             var counter = 0;
             var keepPlaying = true;
             while (keepPlaying)
@@ -97,7 +98,7 @@ namespace Services
 
         private bool EnterCity()
         {
-            CityServices cityServices = new CityServices();
+            CityServices cityServices = new CityServices(characterSuperModel);
             return cityServices.RunMenu();
         }
 
@@ -106,7 +107,6 @@ namespace Services
             Console.Clear();
             Console.WriteLine(prompt);
         }
-
         public static int ParseIntput()
         {
             if (int.TryParse(Console.ReadLine(), out int value)) return value;
