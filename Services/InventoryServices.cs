@@ -43,7 +43,6 @@ namespace Services
             while (!exit)
             {
                 PrintChestMenu();
-                exit = true;
                 switch (GameService.ParseIntput())
                 {
                     case 1:
@@ -56,9 +55,9 @@ namespace Services
                         break;
                     case 3:
                         //-- Exit Inventory
+                        exit = true;
                         break;
                     default:
-                        exit = false;
                         Console.WriteLine("Invalid input");
                         Console.ReadKey();
                         break;
