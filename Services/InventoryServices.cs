@@ -17,7 +17,6 @@ namespace Services
                 switch (GameService.ParseIntput())
                 {
                     case 1:
-                        //-- Talk to Master
                         GameService.NewPage("You look at your items");
                         Console.ReadLine();
                         break;
@@ -40,7 +39,30 @@ namespace Services
 
         public void AccessChest()
         {
-
+            var exit = false;
+            while (!exit)
+            {
+                PrintChestMenu();
+                switch (GameService.ParseIntput())
+                {
+                    case 1:
+                        GameService.NewPage("Which item would you like to take?");
+                        Console.ReadKey();
+                        break;
+                    case 2:
+                        GameService.NewPage("Which item would you like to store?");
+                        Console.ReadKey();
+                        break;
+                    case 3:
+                        //-- Exit Inventory
+                        exit = true;
+                        break;
+                    default:
+                        Console.WriteLine("Invalid input");
+                        Console.ReadKey();
+                        break;
+                }
+            }
         }
 
         private bool SaveAndQuit()
@@ -50,8 +72,8 @@ namespace Services
             while (!confirmed)
             {
                 GameService.NewPage("Are you sure you want to Save and Quit?" +
-                    "\n1) Yes, save and exit" +
-                    "\n2) No, return to game");
+                    "\n1) Yes I want to save and quit" +
+                    "\n2) No I want to return to the game");
                 confirmed = true;
                 switch (GameService.ParseIntput())
                 {
@@ -77,6 +99,14 @@ namespace Services
                 "\n1) See Items" +
                 "\n2) Save and Quit" +
                 "\n3) Exit Inventory");
+        }
+        private void PrintChestMenu()
+        {
+            GameService.NewPage("Chest:" +
+                "\nWhat would you like to do?" +
+                "\n1) Take Items" +
+                "\n2) Store Items" +
+                "\n3) Exit Chest");
         }
     }
 }

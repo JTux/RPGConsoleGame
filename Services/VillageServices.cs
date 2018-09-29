@@ -9,20 +9,21 @@ namespace Services
 {
     public class VillageServices
     {
-        private InventoryServices inventory = new InventoryServices();
-        private GameService gameService = new GameService();
+        private InventoryServices _inventoryServices = new InventoryServices();
+        private ExploringServices _exploringServices;
         private CharacterSuperModel _characterSuperModel;
 
-        public VillageServices(CharacterSuperModel characterSuperModel)
+        public VillageServices(CharacterSuperModel characterSuperModel, ExploringServices exploringServices)
         {
             _characterSuperModel = characterSuperModel;
+            _exploringServices = exploringServices;
         }
 
         private int healthFromPlayerBed = 5;
 
         public bool RunMenu()
         {
-            bool leaveVillage = false;
+            var leaveVillage = false;
             while (!leaveVillage)
             {
                 PrintMenuOptions();
@@ -36,12 +37,11 @@ namespace Services
                         break;
                     case 2:
                         //-- Go Home
-                        GameService.NewPage("You go to your house");
                         GoHome();
                         break;
                     case 3:
                         //-- Inventory
-                        bool leaveFromInv = inventory.OpenInventory();
+                        bool leaveFromInv = _inventoryServices.OpenInventory();
                         if (leaveFromInv) return false;
                         break;
                     case 4:
@@ -68,13 +68,13 @@ namespace Services
                 {
                     case 1:
                         //-- Talk to Master
-                        GameService.NewPage("Open chest inventory");
-                        Console.ReadLine();
+                        _inventoryServices.AccessChest();
                         break;
                     case 2:
                         //-- Go Home
-                        GameService.NewPage("You sleep in your bed");
-                        _characterSuperModel.CharacterHealth += 5;
+                        _characterSuperModel.CharacterHealth += healthFromPlayerBed;
+                        GameService.NewPage($"You sleep in your bed and recover {healthFromPlayerBed} HP." +
+                            $"\nYou now have {_characterSuperModel.CharacterHealth} HP.");
                         Console.ReadLine();
                         break;
                     case 3:
@@ -100,7 +100,7 @@ namespace Services
                 switch (GameService.ParseIntput())
                 {
                     case 1:
-                        GameService.NewPage("You Explore the area");
+                        _exploringServices.Explore();
                         Console.ReadKey();
                         output = false;
                         break;
@@ -130,11 +130,11 @@ namespace Services
         }
         private void PrintHomeMenu()
         {
-            GameService.NewPage("Welcome home!" +
-                "\nWhat would you like to do?" +
-                "\n1) Access your Chest" +
-                "\n2) Sleep in your Bed (+5hp)" +
-                "\n3) Leave your Home");
+            GameService.NewPage($"Welcome home!" +
+                $"\nWhat would you like to do?" +
+                $"\n1) Access your Chest" +
+                $"\n2) Sleep in your Bed (+{healthFromPlayerBed} HP)" +
+                $"\n3) Leave your Home");
         }
         private void PrintLeaveMenu()
         {

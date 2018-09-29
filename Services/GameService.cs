@@ -9,11 +9,14 @@ namespace Services
 {
     public class GameService
     {
-        private CharacterSuperModel characterSuperModel = new CharacterSuperModel();
+        private CharacterSuperModel characterSuperModel;
         private SaveServices saveServices;
+        private Random rand = new Random();
+        private ExploringServices exploringServices;
 
         public void Run()
         {
+            exploringServices = new ExploringServices(rand);
             RunMenu();
         }
 
@@ -34,7 +37,6 @@ namespace Services
                     case 2:
                         //-- New Game
                         Play();
-                        //CreateGame();
                         break;
                     case 3:
                         //-- Tutorial
@@ -66,6 +68,7 @@ namespace Services
 
         private void Play()
         {
+            characterSuperModel = new CharacterSuperModel();
             var counter = 0;
             var keepPlaying = true;
             while (keepPlaying)
@@ -80,10 +83,17 @@ namespace Services
             if (n % 2 == 0)
             {
                 characterSuperModel.CurrentLocation = "village";
+                if (n != 0)
+                {
+                    exploringServices.Commute();
+                    Console.ReadKey();
+                }
                 return EnterVillage();
             }
             else
             {
+                exploringServices.Commute();
+                Console.ReadKey();
                 characterSuperModel.CurrentLocation = "city";
                 return EnterCity();
             }
@@ -91,13 +101,13 @@ namespace Services
 
         private bool EnterVillage()
         {
-            VillageServices villageServices = new VillageServices(characterSuperModel);
+            VillageServices villageServices = new VillageServices(characterSuperModel, exploringServices);
             return villageServices.RunMenu();
         }
 
         private bool EnterCity()
         {
-            CityServices cityServices = new CityServices();
+            CityServices cityServices = new CityServices(characterSuperModel, exploringServices);
             return cityServices.RunMenu();
         }
 
@@ -106,7 +116,6 @@ namespace Services
             Console.Clear();
             Console.WriteLine(prompt);
         }
-
         public static int ParseIntput()
         {
             if (int.TryParse(Console.ReadLine(), out int value)) return value;
