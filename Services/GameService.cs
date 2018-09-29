@@ -33,6 +33,9 @@ namespace Services
                     case 1:
                         //-- Load Game
                         NewPage("Choose Save Game:");
+                        saveServices.PrintSaves();
+                        var saveID = ParseIntput();
+                        if (saveID > 0 && saveID <= SaveServices.SaveGames) Play(saveServices.LoadSave(saveID));
                         Console.ReadLine();
                         break;
                     case 2:
@@ -59,16 +62,27 @@ namespace Services
 
         private void CreateNewGame()
         {
+            NewPage("New Game:" +
+                "\nWhat's your name?");
+            string newName;
+            while (true)
+            {
+                newName = Console.ReadLine();
+                if (newName != "" && !newName.Contains(",")) break;
+                else Console.Write("Enter valid name: ");
+            }
+
             SaveServices.SaveGames++;
             characterSuperModel = new CharacterSuperModel
             {
                 CharacterID = SaveServices.SaveGames,
+                CharacterName = newName,
                 CharacterBaseHealth = 10,
                 CharacterHealth = 10,
                 CharacterMaxHealth = 10
             };
             saveServices.SaveGame(characterSuperModel);
-            Play();
+            Play(characterSuperModel);
         }
 
         private void PrintMenuOptions()
@@ -82,8 +96,9 @@ namespace Services
             Console.SetCursorPosition(0, 6);
         }
 
-        private void Play()
+        private void Play(CharacterSuperModel character)
         {
+            characterSuperModel = character;
             var counter = 0;
             var keepPlaying = true;
             while (keepPlaying)
@@ -116,12 +131,14 @@ namespace Services
 
         private bool EnterVillage()
         {
+            saveServices.SaveGame(characterSuperModel);
             VillageServices villageServices = new VillageServices(characterSuperModel, exploringServices);
             return villageServices.RunMenu();
         }
 
         private bool EnterCity()
         {
+            saveServices.SaveGame(characterSuperModel);
             CityServices cityServices = new CityServices(characterSuperModel, exploringServices);
             return cityServices.RunMenu();
         }
