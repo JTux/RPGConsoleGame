@@ -9,12 +9,11 @@ namespace Services
 {
     public class GameService
     {
-        private CharacterSuperModel characterSuperModel;
+        private CharacterSuperModel characterSuperModel = new CharacterSuperModel();
         private SaveServices saveServices;
 
         public void Run()
         {
-            EnterVillage();
             RunMenu();
         }
 
@@ -34,6 +33,7 @@ namespace Services
                         break;
                     case 2:
                         //-- New Game
+                        Play();
                         //CreateGame();
                         break;
                     case 3:
@@ -64,10 +64,41 @@ namespace Services
             Console.SetCursorPosition(0, 6);
         }
 
-        private void EnterVillage()
+        private void Play()
+        {
+            var counter = 0;
+            var keepPlaying = true;
+            while (keepPlaying)
+            {
+                keepPlaying = SetLocation(counter);
+                counter++;
+            }
+        }
+
+        private bool SetLocation(int n)
+        {
+            if (n % 2 == 0)
+            {
+                characterSuperModel.CurrentLocation = "village";
+                return EnterVillage();
+            }
+            else
+            {
+                characterSuperModel.CurrentLocation = "city";
+                return EnterCity();
+            }
+        }
+
+        private bool EnterVillage()
         {
             VillageServices villageServices = new VillageServices();
-            villageServices.RunMenu();
+            return villageServices.RunMenu();
+        }
+
+        private bool EnterCity()
+        {
+            CityServices cityServices = new CityServices();
+            return cityServices.RunMenu();
         }
 
         public static void NewPage(string prompt)

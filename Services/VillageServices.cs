@@ -8,7 +8,9 @@ namespace Services
 {
     public class VillageServices
     {
-        public void RunMenu()
+        private InventoryServices inventory = new InventoryServices();
+
+        public bool RunMenu()
         {
             bool leaveVillage = false;
             while (!leaveVillage)
@@ -20,7 +22,7 @@ namespace Services
                     case 1:
                         //-- Talk to Master
                         GameService.NewPage("You go talk to your master");
-                        Console.ReadLine();
+                        Console.ReadKey();
                         break;
                     case 2:
                         //-- Go Home
@@ -29,11 +31,12 @@ namespace Services
                         break;
                     case 3:
                         //-- Inventory
-                        GameService.NewPage("You open your bag");
+                        bool leaveFromInv = inventory.OpenInventory();
+                        if (leaveFromInv) return false;
                         break;
                     case 4:
                         //-- Leave Village
-                        leaveVillage = true;
+                        leaveVillage = LeaveVillage();
                         break;
                     default:
                         Console.WriteLine("Invalid input.");
@@ -41,24 +44,10 @@ namespace Services
                         break;
                 }
             }
-        }
-
-        private void PrintMenuOptions()
-        {
-            GameService.NewPage($"THE VILLAGE" +
-                $"\n1) Visit your Master" +
-                $"\n2) Go Home" +
-                $"\n3) Open Inventory" +
-                $"\n4) Leave Village");
-            Console.SetCursorPosition(0, 6);
+            return leaveVillage;
         }
 
         private void GoHome()
-        {
-            HomeMenu();
-        }
-
-        private void HomeMenu()
         {
             var leaveHome = false;
             while (!leaveHome)
@@ -74,7 +63,7 @@ namespace Services
                         break;
                     case 2:
                         //-- Go Home
-                        GameService.NewPage("You sleep in your bed.");
+                        GameService.NewPage("You sleep in your bed");
                         Console.ReadLine();
                         break;
                     case 3:
@@ -82,21 +71,66 @@ namespace Services
                         leaveHome = true;
                         break;
                     default:
-                        Console.WriteLine("Invalid input.");
+                        Console.WriteLine("Invalid input");
                         Console.ReadKey();
                         break;
                 }
             }
-
         }
 
+        private bool LeaveVillage()
+        {
+            var leave = false;
+            var output = false;
+            while (!leave)
+            {
+                PrintLeaveMenu();
+                leave = true;
+                switch (GameService.ParseIntput())
+                {
+                    case 1:
+                        GameService.NewPage("You Explore the area");
+                        Console.ReadKey();
+                        output = false;
+                        break;
+                    case 2:
+                        output = true;
+                        break;
+                    case 3:
+                        output = false;
+                        break;
+                    default:
+                        Console.WriteLine("Invalid input");
+                        leave = false;
+                        Console.ReadKey();
+                        break;
+                }
+            }
+            return output;
+        }
+
+        private void PrintMenuOptions()
+        {
+            GameService.NewPage($"THE VILLAGE" +
+                $"\n1) Visit your Master" +
+                $"\n2) Go Home" +
+                $"\n3) Open Inventory" +
+                $"\n4) Leave Village");
+        }
         private void PrintHomeMenu()
         {
             GameService.NewPage("Welcome home!" +
                 "\nWhat would you like to do?" +
-                "\n1) Access your Chest." +
-                "\n2) Sleep in your Bed. (+5hp)" +
-                "\n3) Leave your Home.");
+                "\n1) Access your Chest" +
+                "\n2) Sleep in your Bed (+5hp)" +
+                "\n3) Leave your Home");
+        }
+        private void PrintLeaveMenu()
+        {
+            GameService.NewPage("Where will you go?" +
+                "\n1) Explore the Surrounding Area" +
+                "\n2) Travel to City" +
+                "\n3) Return to Village");
         }
     }
 }

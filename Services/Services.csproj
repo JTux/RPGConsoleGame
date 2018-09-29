@@ -41,9 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CityServices.cs" />
     <Compile Include="ExploringServices.cs" />
     <Compile Include="GameService.cs" />
     <Compile Include="CombatService.cs" />
+    <Compile Include="InventoryServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SaveServices.cs" />
     <Compile Include="VillageServices.cs" />

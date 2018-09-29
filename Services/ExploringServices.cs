@@ -8,5 +8,9 @@ namespace Services
 {
     public class ExploringServices
     {
+        public void Explore()
+        {
+
+        }
     }
 }
