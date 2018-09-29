@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,15 @@ namespace Services
     public class VillageServices
     {
         private InventoryServices inventory = new InventoryServices();
+        private GameService gameService = new GameService();
+        private CharacterSuperModel _characterSuperModel;
+
+        public VillageServices(CharacterSuperModel characterSuperModel)
+        {
+            _characterSuperModel = characterSuperModel;
+        }
+
+        private int healthFromPlayerBed = 5;
 
         public bool RunMenu()
         {
@@ -64,6 +74,7 @@ namespace Services
                     case 2:
                         //-- Go Home
                         GameService.NewPage("You sleep in your bed");
+                        _characterSuperModel.CharacterHealth += 5;
                         Console.ReadLine();
                         break;
                     case 3:
