@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CityServices.cs" />
     <Compile Include="ExploringServices.cs" />
     <Compile Include="GameService.cs" />
     <Compile Include="CombatService.cs" />

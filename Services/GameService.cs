@@ -15,6 +15,7 @@ namespace Services
         public void Run()
         {
             EnterVillage();
+            EnterCity();
             RunMenu();
         }
 
@@ -68,6 +69,12 @@ namespace Services
         {
             VillageServices villageServices = new VillageServices();
             villageServices.RunMenu();
+        }
+
+        private void EnterCity()
+        {
+            CityServices cityServices = new CityServices();
+            cityServices.RunMenu();
         }
 
         public static void NewPage(string prompt)

@@ -20,7 +20,7 @@ namespace Services
                     case 1:
                         //-- Talk to Master
                         GameService.NewPage("You go talk to your master");
-                        Console.ReadLine();
+                        Console.ReadKey();
                         break;
                     case 2:
                         //-- Go Home
@@ -30,6 +30,7 @@ namespace Services
                     case 3:
                         //-- Inventory
                         GameService.NewPage("You open your bag");
+                        Console.ReadKey();
                         break;
                     case 4:
                         //-- Leave Village
@@ -74,7 +75,7 @@ namespace Services
                         break;
                     case 2:
                         //-- Go Home
-                        GameService.NewPage("You sleep in your bed.");
+                        GameService.NewPage("You sleep in your bed");
                         Console.ReadLine();
                         break;
                     case 3:
@@ -82,7 +83,7 @@ namespace Services
                         leaveHome = true;
                         break;
                     default:
-                        Console.WriteLine("Invalid input.");
+                        Console.WriteLine("Invalid input");
                         Console.ReadKey();
                         break;
                 }
@@ -94,9 +95,9 @@ namespace Services
         {
             GameService.NewPage("Welcome home!" +
                 "\nWhat would you like to do?" +
-                "\n1) Access your Chest." +
-                "\n2) Sleep in your Bed. (+5hp)" +
-                "\n3) Leave your Home.");
+                "\n1) Access your Chest" +
+                "\n2) Sleep in your Bed (+5hp)" +
+                "\n3) Leave your Home");
         }
     }
 }
