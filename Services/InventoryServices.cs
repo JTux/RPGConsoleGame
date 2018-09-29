@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,14 @@ namespace Services
 {
     public class InventoryServices
     {
+        private SaveServices _saveServices = new SaveServices();
+        private CharacterSuperModel _characterSuperModel;
+
+        public InventoryServices(CharacterSuperModel superModel)
+        {
+            _characterSuperModel = superModel;
+        }
+
         public bool OpenInventory()
         {
             var exit = false;
@@ -78,6 +87,7 @@ namespace Services
                 switch (GameService.ParseIntput())
                 {
                     case 1:
+                        _saveServices.SaveGame(_characterSuperModel);
                         confirm = true;
                         break;
                     case 2:

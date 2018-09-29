@@ -19,9 +19,9 @@ namespace Services
         public void Commute()
         {
             var eventChance = GetChance();
-            if (eventChance < 30) NegativeEvent();
-            else if (eventChance < 85) NeutralEvent();
-            else PositiveEvent();
+            if (eventChance < 30) NegativeCommute();
+            else if (eventChance < 85) NeutralCommute();
+            else PositiveCommute();
         }
 
         public void Explore()
@@ -45,6 +45,21 @@ namespace Services
         private void PositiveEvent()
         {
             GameService.NewPage("Good Event");
+        }
+
+        private void NegativeCommute()
+        {
+            GameService.NewPage("Bad Commute");
+        }
+
+        private void NeutralCommute()
+        {
+            GameService.NewPage("Neutral Commute");
+        }
+
+        private void PositiveCommute()
+        {
+            GameService.NewPage("Good Commute");
         }
 
         private int GetChance()

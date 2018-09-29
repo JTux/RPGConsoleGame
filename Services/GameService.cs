@@ -10,12 +10,13 @@ namespace Services
     public class GameService
     {
         private CharacterSuperModel characterSuperModel;
-        private SaveServices saveServices;
+        private SaveServices saveServices = new SaveServices();
         private Random rand = new Random();
         private ExploringServices exploringServices;
 
         public void Run()
         {
+            saveServices.LoadSettings();
             exploringServices = new ExploringServices(rand);
             RunMenu();
         }
@@ -36,13 +37,14 @@ namespace Services
                         break;
                     case 2:
                         //-- New Game
-                        Play();
+                        CreateNewGame();
                         break;
                     case 3:
                         //-- Tutorial
                         break;
                     case 4:
                         //-- Options
+                        saveServices.Reset();
                         break;
                     case 5:
                         closeApp = true;
@@ -53,6 +55,20 @@ namespace Services
                         break;
                 }
             }
+        }
+
+        private void CreateNewGame()
+        {
+            SaveServices.SaveGames++;
+            characterSuperModel = new CharacterSuperModel
+            {
+                CharacterID = SaveServices.SaveGames,
+                CharacterBaseHealth = 10,
+                CharacterHealth = 10,
+                CharacterMaxHealth = 10
+            };
+            saveServices.SaveGame(characterSuperModel);
+            Play();
         }
 
         private void PrintMenuOptions()
@@ -68,7 +84,6 @@ namespace Services
 
         private void Play()
         {
-            characterSuperModel = new CharacterSuperModel();
             var counter = 0;
             var keepPlaying = true;
             while (keepPlaying)
