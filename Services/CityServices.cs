@@ -8,6 +8,8 @@ namespace Services
 {
     public class CityServices
     {
+        private InventoryServices inventory = new InventoryServices();
+
         public bool RunMenu()
         {
             bool leaveCity = false;
@@ -38,6 +40,10 @@ namespace Services
                         Console.ReadKey();
                         break;
                     case 5:
+                        bool leaveFromInv = inventory.OpenInventory();
+                        if (leaveFromInv) return false;
+                        break;
+                    case 6:
                         //-- Leave City
                         leaveCity = LeaveCity();
                         break;
@@ -88,7 +94,8 @@ namespace Services
                 $"\n2) Fight in the Arena" +
                 $"\n3) Sleep at the Inn" +
                 $"\n4) Shop at General Store" +
-                $"\n5) Leave City");
+                $"\n5) Open Inventory" +
+                $"\n6) Leave City");
         }
         private void PrintLeaveMenu()
         {
