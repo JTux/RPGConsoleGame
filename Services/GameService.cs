@@ -37,13 +37,14 @@ namespace Services
                         break;
                     case 2:
                         //-- New Game
-                        Play();
+                        CreateNewGame();
                         break;
                     case 3:
                         //-- Tutorial
                         break;
                     case 4:
                         //-- Options
+                        saveServices.Reset();
                         break;
                     case 5:
                         closeApp = true;
@@ -62,6 +63,9 @@ namespace Services
             characterSuperModel = new CharacterSuperModel
             {
                 CharacterID = SaveServices.SaveGames,
+                CharacterBaseHealth = 10,
+                CharacterHealth = 10,
+                CharacterMaxHealth = 10
             };
             saveServices.SaveGame(characterSuperModel);
             Play();
