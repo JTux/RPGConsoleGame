@@ -1,5 +1,4 @@
-﻿using Models;
-using Services;
+﻿using Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +11,8 @@ namespace UI
     {
         static void Main(string[] args)
         {
-            CharacterSuperModel characterSuperModel;
             GameService gameService = new GameService();
+            gameService.Run();
         }
     }
 }

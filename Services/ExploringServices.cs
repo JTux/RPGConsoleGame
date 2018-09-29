@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GroupConsoleGame
+namespace Services
 {
-    class Program
+    public class ExploringServices
     {
-        static void Main(string[] args)
-        {
-        }
     }
 }

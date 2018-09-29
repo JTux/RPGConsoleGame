@@ -8,5 +8,6 @@ namespace Data
 {
     class Player
     {
+        public string PlayerInfo { get; set; }
     }
 }

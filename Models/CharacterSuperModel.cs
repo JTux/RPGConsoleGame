@@ -8,6 +8,6 @@ namespace Models
 {
     public class CharacterSuperModel
     {
-
+        public string CharacterName { get; set; }
     }
 }
