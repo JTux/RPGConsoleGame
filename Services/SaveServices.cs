@@ -97,6 +97,7 @@ namespace Services
                     Console.ForegroundColor = ConsoleColor.Gray;
                 }
             }
+            Console.WriteLine($"{SaveGames + 1}) Return to Menu");
         }
 
         public CharacterSuperModel LoadSave(int saveID)

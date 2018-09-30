@@ -65,7 +65,8 @@ namespace Services
                 NewPage("Choose Save Game:");
                 saveServices.PrintSaves();
                 var saveID = ParseIntput();
-                if (saveID > 0 && saveID <= SaveServices.SaveGames && File.Exists($"./Files/Saves/Game{saveID}.txt"))
+                if (saveID == (SaveServices.SaveGames + 1)) break;
+                else if (saveID > 0 && saveID <= SaveServices.SaveGames && File.Exists($"./Files/Saves/Game{saveID}.txt"))
                 {
                     foundGame = true;
                     Play(saveServices.LoadSave(saveID));
