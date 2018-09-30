@@ -28,8 +28,9 @@ namespace Services
                 switch (GameService.ParseIntput())
                 {
                     case 1:
-                        GameService.NewPage("\nYou look at your items", "inv");
-                        foreach(Equipment item in _characterSuperModel.CharacterEquipment)
+                        GameService.NewPage("\nYou look at your items" +
+                            $"\n{"ID",-2}  {"Name",-18}  {"Type",-6}  {"Lvl",-4}  {"ATK+",-4}  {"HP+",-4}", "inv");
+                        foreach (Equipment item in _characterSuperModel.CharacterEquipment)
                         {
                             Console.WriteLine(item);
                         }

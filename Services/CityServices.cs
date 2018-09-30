@@ -163,8 +163,25 @@ namespace Services
                     $"\n{"ID",-2}  {"Name",-18}  {"Type",-6}  {"Lvl",-4}  {"ATK+",-4}  {"HP+",-4}", cat);
                 var canBuyItems = GetShopItems(cat);
                 PrintShopItems(canBuyItems);
+                BuyWeapon(canBuyItems);
                 Console.ReadKey();
             }
+        }
+
+        private void BuyWeapon(List<Equipment> shoppingList)
+        {
+            var shopping = true;
+            while (shopping)
+            {
+                var response = GameService.ParseIntput();
+                var existingItem = shoppingList.FirstOrDefault(i => i.GearID == response);
+                if (existingItem != null)
+                {
+                    _characterSuperModel.CharacterEquipment.Add(existingItem);
+                    break;
+                }
+            }
+            Console.WriteLine("Item bought!");
         }
 
         private bool Leave()
@@ -228,7 +245,7 @@ namespace Services
 
         private void PrintShopItems(List<Equipment> itemList)
         {
-            foreach(Equipment item in itemList)
+            foreach (Equipment item in itemList)
             {
                 Console.WriteLine(item);
             }
