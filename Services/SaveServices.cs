@@ -15,7 +15,8 @@ namespace Services
         public void LoadSettings()
         {
             CreateDirectories();
-            UpdateSettings();
+            if (!File.Exists($"./Files/Settings.txt"))
+                CreateSettings();
             string settings = File.ReadAllText($"./Files/Settings.txt");
             string[] lines = settings.Split(',');
 
@@ -27,14 +28,21 @@ namespace Services
                     SaveGames = int.Parse(newValue);
                 }
             }
+            UpdateSettings();
         }
 
-        public void CreateDirectories()
+        private void CreateDirectories()
         {
             if (!Directory.Exists($"./Files"))
                 Directory.CreateDirectory($"./Files");
             if (!Directory.Exists($"./Files/Saves"))
                 Directory.CreateDirectory($"./Files/Saves");
+        }
+
+        private void CreateSettings()
+        {
+            StreamWriter settings = new StreamWriter($"./Files/Settings.txt");
+            settings.Close();
         }
 
         public void UpdateSettings()
