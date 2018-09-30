@@ -56,12 +56,6 @@ namespace Services
         {
             StreamWriter characterFile = new StreamWriter($"./Files/Saves/Game{superModel.CharacterID}.txt");
 
-            var itemIDList = "";
-            foreach (Equipment item in superModel.CharacterEquipment)
-            {
-                itemIDList += $"{item.GearID};";
-            }
-
             characterFile.Write($"CharacterID: {superModel.CharacterID},");
             characterFile.Write($"CharacterName: {superModel.CharacterName},");
             characterFile.Write($"CurrentLocation: {superModel.CurrentLocation},");
@@ -69,6 +63,12 @@ namespace Services
             characterFile.Write($"CharacterMaxHealth: {superModel.CharacterMaxHealth},");
             characterFile.Write($"CharacterHealth: {superModel.CharacterHealth},");
             characterFile.Write($"CharacterLevel: {superModel.CharacterLevel},");
+
+            var itemIDList = "";
+            foreach (Equipment item in superModel.CharacterEquipment)
+            {
+                itemIDList += $"{item.GearID};";
+            }
             characterFile.Write($"CharacterItems: {itemIDList},");
 
             characterFile.Close();
@@ -102,11 +102,6 @@ namespace Services
                         {
                             var loadCharacterLevel = trait.Substring(trait.IndexOf(' ') + 1);
                             loadedSuperModel.CharacterLevel = int.Parse(loadCharacterLevel);
-                        }
-                        else if (trait.Contains("CurrentLocation:"))
-                        {
-                            var loadCharacterLocation = trait.Substring(trait.IndexOf(' ') + 1);
-                            loadedSuperModel.CurrentLocation = loadCharacterLocation;
                         }
                         else if (trait.Contains("CurrentLocation:"))
                         {
@@ -180,13 +175,13 @@ namespace Services
                             var getItems = invService.GetEquipment();
 
                             var loadItemString = trait.Substring(trait.IndexOf(' ') + 1);
-                            string[] loadItems = loadItemString.Split(';');
+                            string[] loadedItemIDs = loadItemString.Split(';');
 
-                            foreach (string item in loadItems)
+                            foreach (string itemID in loadedItemIDs)
                             {
-                                if (item != "")
+                                if (itemID != "")
                                 {
-                                    var newItem = getItems.FirstOrDefault(l => l.GearID == int.Parse(item));
+                                    var newItem = getItems.FirstOrDefault(l => l.GearID == int.Parse(itemID));
                                     loadedSuperModel.CharacterEquipment.Add(newItem);
                                 }
                             }

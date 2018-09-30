@@ -36,11 +36,9 @@ namespace Services
                         Console.ReadLine();
                         break;
                     case 2:
-                        //-- Save and Quit
                         if (SaveAndQuit()) return true;
                         else break;
                     case 3:
-                        //-- Exit Inventory
                         exit = true;
                         break;
                     default:
@@ -69,7 +67,6 @@ namespace Services
                         Console.ReadKey();
                         break;
                     case 3:
-                        //-- Exit Inventory
                         exit = true;
                         break;
                     default:
