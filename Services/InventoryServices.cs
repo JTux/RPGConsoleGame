@@ -26,7 +26,7 @@ namespace Services
                 switch (GameService.ParseIntput())
                 {
                     case 1:
-                        GameService.NewPage("You look at your items");
+                        GameService.NewPage("\nYou look at your items", "inv");
                         Console.ReadLine();
                         break;
                     case 2:
@@ -55,11 +55,11 @@ namespace Services
                 switch (GameService.ParseIntput())
                 {
                     case 1:
-                        GameService.NewPage("Which item would you like to take?");
+                        GameService.NewPage("\nWhich item would you like to take?", "chest");
                         Console.ReadKey();
                         break;
                     case 2:
-                        GameService.NewPage("Which item would you like to store?");
+                        GameService.NewPage("\nWhich item would you like to store?", "chest");
                         Console.ReadKey();
                         break;
                     case 3:

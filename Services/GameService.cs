@@ -29,31 +29,52 @@ namespace Services
             while (!closeApp)
             {
                 PrintMenuOptions();
-                var input = ParseIntput();
-                switch (input)
+                if (SaveServices.SaveGames == 0)
                 {
-                    case 1:
-                        //-- Load Game
-                        LoadGame();
-                        break;
-                    case 2:
-                        //-- New Game
-                        CreateNewGame();
-                        break;
-                    case 3:
-                        //-- Tutorial
-                        break;
-                    case 4:
-                        //-- Options
-                        OptionsMenu();
-                        break;
-                    case 5:
-                        closeApp = true;
-                        break;
-                    default:
-                        Console.WriteLine("Invalid input.");
-                        Console.ReadKey();
-                        break;
+                    switch (ParseIntput())
+                    {
+                        case 1:
+                            NewGame();
+                            break;
+                        case 2:
+                            //-- Tutorial
+                            break;
+                        case 3:
+                            OptionsMenu();
+                            break;
+                        case 4:
+                            closeApp = true;
+                            break;
+                        default:
+                            Console.WriteLine("Invalid input.");
+                            Console.ReadKey();
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (ParseIntput())
+                    {
+                        case 1:
+                            LoadGame();
+                            break;
+                        case 2:
+                            NewGame();
+                            break;
+                        case 3:
+                            //-- Tutorial
+                            break;
+                        case 4:
+                            OptionsMenu();
+                            break;
+                        case 5:
+                            closeApp = true;
+                            break;
+                        default:
+                            Console.WriteLine("Invalid input.");
+                            Console.ReadKey();
+                            break;
+                    }
                 }
             }
         }
@@ -63,7 +84,7 @@ namespace Services
             var foundGame = false;
             while (!foundGame)
             {
-                NewPage("Choose Save Game:","loadGame");
+                NewPage("\nChoose Save Game:", "loadGame");
                 saveServices.PrintSaves();
                 var saveID = ParseIntput();
                 if (saveID == (SaveServices.SaveGames + 1)) break;
@@ -80,9 +101,31 @@ namespace Services
             }
         }
 
+        private void NewGame()
+        {
+            var exit = false;
+            while (!exit)
+            {
+                PrintConfirmNewGame();
+                exit = true;
+                switch (ParseIntput())
+                {
+                    case 1:
+                        CreateNewGame();
+                        break;
+                    case 2:
+                        break;
+                    default:
+                        exit = false;
+                        Console.WriteLine("Invalid input");
+                        break;
+                }
+            }
+        }
+
         private void CreateNewGame()
         {
-            NewPage("\nWhat's your name?","newGame");
+            NewPage("\nWhat's your name?", "newGame");
             string newName;
             while (true)
             {
@@ -166,7 +209,6 @@ namespace Services
                 switch (ParseIntput())
                 {
                     case 1:
-                        //-- Load Game
                         saveServices.Reset();
                         Console.WriteLine("Files Reset");
                         Console.ReadKey();
@@ -184,16 +226,32 @@ namespace Services
 
         private void PrintMenuOptions()
         {
-            NewPage($"\n1) Continue" +
-                $"\n2) New Game" +
-                $"\n3) Tutorial" +
-                $"\n4) Options" +
-                $"\n5) Quit Game","title");
+            if (SaveServices.SaveGames != 0)
+            {
+                NewPage($"\n1) Continue" +
+                    $"\n2) New Game" +
+                    $"\n3) Tutorial" +
+                    $"\n4) Options" +
+                    $"\n5) Quit Game", "title");
+            }
+            else
+            {
+                NewPage($"\n1) New Game" +
+                    $"\n2) Tutorial" +
+                    $"\n3) Options" +
+                    $"\n4) Quit Game", "title");
+            }
         }
         private void PrintOptionsOptions()
         {
             NewPage($"\n1) Reset Save Files" +
                 $"\n2) Return to Menu", "options");
+        }
+        private void PrintConfirmNewGame()
+        {
+            NewPage("\nDo you want to start a new game?" +
+                "\n1) Yes begin new game" +
+                "\n2) No return to menu", "newGame");
         }
 
         public static void PrintCharacterStats(CharacterSuperModel currentCharacter)
