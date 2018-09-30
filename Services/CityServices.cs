@@ -33,32 +33,25 @@ namespace Services
                 {
                     case 1:
                         //-- Visit a Guild
-                        GameService.NewPage("You go to a Guild");
-                        Console.ReadKey();
+                        GuildMenu();
                         break;
                     case 2:
                         //-- Fight in Arena
-                        GameService.NewPage("You enter the arena");
+                        GameService.NewPage("You enter the arena", "arena");
                         Console.ReadKey();
                         break;
                     case 3:
                         //-- Sleep at Inn
-                        GameService.NewPage("You sleep at the Inn");
                         _characterSuperModel.CharacterHealth += healthFromInnBed;
                         GameService.NewPage($"You sleep in a comfy bed at the inn and recover {healthFromInnBed} HP." +
-                            $"\nYou now have {_characterSuperModel.CharacterHealth} HP.");
+                            $"\nYou now have {_characterSuperModel.CharacterHealth}/{_characterSuperModel.CharacterMaxHealth} HP.");
                         Console.ReadKey();
                         break;
                     case 4:
-                        //-- Shop at General Store
-                        GameService.NewPage("You visit the general store");
-                        Console.ReadKey();
-                        break;
-                    case 5:
                         bool leaveFromInv = _inventoryServices.OpenInventory();
                         if (leaveFromInv) return false;
                         break;
-                    case 6:
+                    case 5:
                         //-- Leave City
                         leaveCity = LeaveCity();
                         break;
@@ -69,6 +62,41 @@ namespace Services
                 }
             }
             return leaveCity;
+        }
+
+        private void GuildMenu()
+        {
+            bool leaveGuild = false;
+            while (!leaveGuild)
+            {
+                PrintGuildMenu();
+                switch (GameService.ParseIntput())
+                {
+                    case 1:
+                        GameService.NewPage("Shop!", "shop");
+                        Console.ReadKey();
+                        break;
+                    case 2:
+                        GameService.NewPage("Master Archer", "archerGuild");
+                        Console.ReadKey();
+                        break;
+                    case 3:
+                        GameService.NewPage("Master Swordsman", "meleeGuild");
+                        Console.ReadKey();
+                        break;
+                    case 4:
+                        GameService.NewPage("Master Mage", "mageGuild");
+                        Console.ReadKey();
+                        break;
+                    case 5:
+                        leaveGuild = true;
+                        break;
+                    default:
+                        Console.WriteLine("Invalid input.");
+                        Console.ReadKey();
+                        break;
+                }
+            }
         }
 
         private bool LeaveCity()
@@ -104,13 +132,19 @@ namespace Services
 
         private void PrintMenuOptions()
         {
-            GameService.NewPage($"THE CITY" +
-                $"\n1) Visit a Guild" +
+            GameService.NewPage($"\n1) Visit the Combat Guild" +
                 $"\n2) Fight in the Arena" +
                 $"\n3) Sleep at the Inn (+{healthFromInnBed} HP)" +
-                $"\n4) Shop at General Store" +
-                $"\n5) Open Inventory" +
-                $"\n6) Leave City");
+                $"\n4) Open Inventory" +
+                $"\n5) Leave City", "city");
+        }
+        private void PrintGuildMenu()
+        {
+            GameService.NewPage("\n1) Shop for Gear" +
+                "\n2) Speak to Master Archer" +
+                "\n3) Speak to Master Swordsman" +
+                "\n4) Speak to Master Mage" +
+                "\n5) Return to City", "guild");
         }
         private void PrintLeaveMenu()
         {

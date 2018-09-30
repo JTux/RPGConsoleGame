@@ -75,7 +75,7 @@ namespace Services
                         //-- Go Home
                         _characterSuperModel.CharacterHealth += healthFromPlayerBed;
                         GameService.NewPage($"You sleep in your bed and recover {healthFromPlayerBed} HP." +
-                            $"\nYou now have {_characterSuperModel.CharacterHealth} HP.");
+                            $"\nYou now have {_characterSuperModel.CharacterHealth}/{_characterSuperModel.CharacterMaxHealth} HP.");
                         Console.ReadLine();
                         break;
                     case 3:
@@ -123,19 +123,18 @@ namespace Services
 
         private void PrintMenuOptions()
         {
-            GameService.NewPage($"THE VILLAGE" +
-                $"\n1) Visit your Master" +
+            GameService.NewPage($"\n1) Visit your Master" +
                 $"\n2) Go Home" +
                 $"\n3) Open Inventory" +
-                $"\n4) Leave Village");
+                $"\n4) Leave Village", "village");
         }
         private void PrintHomeMenu()
         {
-            GameService.NewPage($"Welcome home!" +
+            GameService.NewPage($"\nWelcome home!" +
                 $"\nWhat would you like to do?" +
                 $"\n1) Access your Chest" +
                 $"\n2) Sleep in your Bed (+{healthFromPlayerBed} HP)" +
-                $"\n3) Leave your Home");
+                $"\n3) Leave your Home", "home");
         }
         private void PrintLeaveMenu()
         {

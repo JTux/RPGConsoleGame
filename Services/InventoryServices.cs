@@ -80,9 +80,9 @@ namespace Services
             var confirmed = false;
             while (!confirmed)
             {
-                GameService.NewPage("Are you sure you want to Save and Quit?" +
+                GameService.NewPage("\nAre you sure you want to Save and Quit?" +
                     "\n1) Yes I want to save and quit" +
-                    "\n2) No I want to return to the game");
+                    "\n2) No I want to return to the game", "saveQuit");
                 confirmed = true;
                 switch (GameService.ParseIntput())
                 {
@@ -104,19 +104,17 @@ namespace Services
 
         private void PrintInvMenu()
         {
-            GameService.NewPage("Inventory:" +
-                "\nWhat would you like to do?" +
+            GameService.NewPage("\nWhat would you like to do?" +
                 "\n1) See Items" +
                 "\n2) Save and Quit" +
-                "\n3) Exit Inventory");
+                "\n3) Exit Inventory", "inv");
         }
         private void PrintChestMenu()
         {
-            GameService.NewPage("Chest:" +
-                "\nWhat would you like to do?" +
+            GameService.NewPage("\nWhat would you like to do?" +
                 "\n1) Take Items" +
                 "\n2) Store Items" +
-                "\n3) Exit Chest");
+                "\n3) Exit Chest", "chest");
         }
     }
 }
