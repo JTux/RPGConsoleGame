@@ -37,7 +37,7 @@ namespace Services
                         break;
                     case 2:
                         //-- Fight in Arena
-                        GameService.NewPage("You enter the arena");
+                        GameService.NewPage("You enter the arena", "arena");
                         Console.ReadKey();
                         break;
                     case 3:
@@ -73,19 +73,19 @@ namespace Services
                 switch (GameService.ParseIntput())
                 {
                     case 1:
-                        GameService.NewPage("Shop!");
+                        GameService.NewPage("Shop!", "shop");
                         Console.ReadKey();
                         break;
                     case 2:
-                        GameService.NewPage("Master Archer");
+                        GameService.NewPage("Master Archer", "archerGuild");
                         Console.ReadKey();
                         break;
                     case 3:
-                        GameService.NewPage("Master Swordsman");
+                        GameService.NewPage("Master Swordsman", "meleeGuild");
                         Console.ReadKey();
                         break;
                     case 4:
-                        GameService.NewPage("Master Mage");
+                        GameService.NewPage("Master Mage", "mageGuild");
                         Console.ReadKey();
                         break;
                     case 5:
@@ -132,21 +132,19 @@ namespace Services
 
         private void PrintMenuOptions()
         {
-            GameService.NewPage($"THE CITY" +
-                $"\n1) Visit the Combat Guild" +
+            GameService.NewPage($"\n1) Visit the Combat Guild" +
                 $"\n2) Fight in the Arena" +
                 $"\n3) Sleep at the Inn (+{healthFromInnBed} HP)" +
                 $"\n4) Open Inventory" +
-                $"\n5) Leave City");
+                $"\n5) Leave City", "city");
         }
         private void PrintGuildMenu()
         {
-            GameService.NewPage("Combat Guild:" +
-                "\n1) Shop for Gear" +
+            GameService.NewPage("\n1) Shop for Gear" +
                 "\n2) Speak to Master Archer" +
                 "\n3) Speak to Master Swordsman" +
                 "\n4) Speak to Master Mage" +
-                "\n5) Return to City");
+                "\n5) Return to City", "guild");
         }
         private void PrintLeaveMenu()
         {

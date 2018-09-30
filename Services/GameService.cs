@@ -1,4 +1,5 @@
-﻿using Models;
+﻿using Data;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -62,7 +63,7 @@ namespace Services
             var foundGame = false;
             while (!foundGame)
             {
-                NewPage("Choose Save Game:");
+                NewPage("Choose Save Game:","loadGame");
                 saveServices.PrintSaves();
                 var saveID = ParseIntput();
                 if (saveID == (SaveServices.SaveGames + 1)) break;
@@ -81,8 +82,7 @@ namespace Services
 
         private void CreateNewGame()
         {
-            NewPage("New Game:" +
-                "\nWhat's your name?");
+            NewPage("\nWhat's your name?","newGame");
             string newName;
             while (true)
             {
@@ -96,6 +96,7 @@ namespace Services
             {
                 CharacterID = SaveServices.SaveGames,
                 CharacterName = newName,
+                CharacterLevel = 1,
                 CharacterBaseHealth = 10,
                 CharacterHealth = 10,
                 CharacterMaxHealth = 10
@@ -183,30 +184,48 @@ namespace Services
 
         private void PrintMenuOptions()
         {
-            NewPage($"MENU TITLE" +
-                $"\n1) Continue" +
+            NewPage($"\n1) Continue" +
                 $"\n2) New Game" +
                 $"\n3) Tutorial" +
                 $"\n4) Options" +
-                $"\n5) Quit Game");
-            Console.SetCursorPosition(0, 6);
+                $"\n5) Quit Game","title");
         }
         private void PrintOptionsOptions()
         {
-            NewPage($"Options:" +
-                $"\n1) Reset Save Files" +
-                $"\n2) Return to Menu");
+            NewPage($"\n1) Reset Save Files" +
+                $"\n2) Return to Menu", "options");
         }
 
+        public static void PrintCharacterStats(CharacterSuperModel currentCharacter)
+        {
+            Console.SetCursorPosition(0, 7);
+            Console.Write($"Name: {currentCharacter.CharacterName} " +
+                $"Level: {currentCharacter.CharacterLevel} " +
+                $"Health: {currentCharacter.CharacterHealth}/{currentCharacter.CharacterMaxHealth} " +
+                $"Gold: {currentCharacter.CharacterHealth}");
+        }
         public static void NewPage(string prompt)
         {
             Console.Clear();
+            Console.WriteLine(prompt);
+        }
+        public static void NewPage(string prompt, string headerKey)
+        {
+            Console.Clear();
+            PrintHeader(headerKey);
             Console.WriteLine(prompt);
         }
         public static int ParseIntput()
         {
             if (int.TryParse(Console.ReadLine(), out int value)) return value;
             else return 0;
+        }
+        private static void PrintHeader(string key)
+        {
+            HeaderText headerText = new HeaderText();
+            var text = headerText.GetHeader(key);
+            string[] lines = text.Split(';');
+            foreach (string line in lines) Console.WriteLine(line);
         }
     }
 }

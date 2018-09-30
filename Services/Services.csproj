@@ -51,6 +51,10 @@
     <Compile Include="VillageServices.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Data\Data.csproj">
+      <Project>{DE98959C-21E7-4F82-B298-013F29953DE2}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Models\Models.csproj">
       <Project>{A4E23CDC-DB9A-41C6-B97E-53196C3213E9}</Project>
       <Name>Models</Name>
