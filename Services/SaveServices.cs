@@ -101,7 +101,7 @@ namespace Services
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine($"{i}) Error loading save files.");
+                    Console.WriteLine($"{i}) Error loading save file.");
                     Console.ForegroundColor = ConsoleColor.Gray;
                 }
             }

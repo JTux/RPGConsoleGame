@@ -55,9 +55,10 @@
       <Name>Services</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Content Include="bin\Debug\Files\Saves\Game1.txt" />
+    <Folder Include="bin\Debug\Files\Saves\" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="bin\Debug\Files\Settings.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

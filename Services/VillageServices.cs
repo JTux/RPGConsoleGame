@@ -75,7 +75,7 @@ namespace Services
                         //-- Go Home
                         _characterSuperModel.CharacterHealth += healthFromPlayerBed;
                         GameService.NewPage($"You sleep in your bed and recover {healthFromPlayerBed} HP." +
-                            $"\nYou now have {_characterSuperModel.CharacterHealth} HP.");
+                            $"\nYou now have {_characterSuperModel.CharacterHealth}/{_characterSuperModel.CharacterMaxHealth} HP.");
                         Console.ReadLine();
                         break;
                     case 3:
