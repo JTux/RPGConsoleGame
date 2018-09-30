@@ -12,6 +12,8 @@ namespace Services
         private SaveServices _saveServices = new SaveServices();
         private CharacterSuperModel _characterSuperModel;
 
+        public InventoryServices() { }
+
         public InventoryServices(CharacterSuperModel superModel)
         {
             _characterSuperModel = superModel;
@@ -27,6 +29,10 @@ namespace Services
                 {
                     case 1:
                         GameService.NewPage("\nYou look at your items", "inv");
+                        foreach(Equipment item in _characterSuperModel.CharacterEquipment)
+                        {
+                            Console.WriteLine(item);
+                        }
                         Console.ReadLine();
                         break;
                     case 2:

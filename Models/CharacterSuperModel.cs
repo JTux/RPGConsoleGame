@@ -15,5 +15,13 @@ namespace Models
         public int CharacterMaxHealth { get; set; }
         public int CharacterHealth { get; set; }
         public int CharacterLevel { get; set; }
+        public List<Equipment> CharacterEquipment { get; set; }
+        public CharacterSuperModel()
+        {
+            CharacterEquipment = new List<Equipment>()
+            {
+                new Equipment() { GearID = 1, GearName = "Bronze Sword", GearType = GearType.Melee, LvToUse = 10, BonusATK = 3, BonusHP = 0 },
+            };
+        }
     }
 }
