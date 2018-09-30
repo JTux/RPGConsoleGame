@@ -163,7 +163,8 @@ namespace Services
                 }
                 if (exit == true) break;
 
-                GameService.NewPage("\nWhich item would you like to buy?", cat);
+                GameService.NewPage($"\nWhich item would you like to buy?" +
+                    $"\n{"ID",-2}  {"Name",-18}  {"Type",-6}  {"Lvl",-4}  {"ATK+",-4}  {"HP+",-4}", cat);
                 PrintShopItems(cat);
                 Console.ReadKey();
             }
