@@ -15,7 +15,8 @@ namespace Services
         public void LoadSettings()
         {
             CreateDirectories();
-            UpdateSettings();
+            if (!File.Exists($"./Files/Settings.txt"))
+                CreateSettings();
             string settings = File.ReadAllText($"./Files/Settings.txt");
             string[] lines = settings.Split(',');
 
@@ -27,14 +28,21 @@ namespace Services
                     SaveGames = int.Parse(newValue);
                 }
             }
+            UpdateSettings();
         }
 
-        public void CreateDirectories()
+        private void CreateDirectories()
         {
             if (!Directory.Exists($"./Files"))
                 Directory.CreateDirectory($"./Files");
             if (!Directory.Exists($"./Files/Saves"))
                 Directory.CreateDirectory($"./Files/Saves");
+        }
+
+        private void CreateSettings()
+        {
+            StreamWriter settings = new StreamWriter($"./Files/Settings.txt");
+            settings.Close();
         }
 
         public void UpdateSettings()
@@ -54,6 +62,7 @@ namespace Services
             characterFile.Write($"CharacterBaseHealth: {superModel.CharacterBaseHealth},");
             characterFile.Write($"CharacterMaxHealth: {superModel.CharacterMaxHealth},");
             characterFile.Write($"CharacterHealth: {superModel.CharacterHealth},");
+            characterFile.Write($"CharacterLevel: {superModel.CharacterLevel},");
 
             characterFile.Close();
             UpdateSettings();
@@ -82,18 +91,23 @@ namespace Services
                             var loadCharacterName = trait.Substring(trait.IndexOf(' ') + 1);
                             loadedSuperModel.CharacterName = loadCharacterName;
                         }
+                        else if (trait.Contains("CharacterLevel:"))
+                        {
+                            var loadCharacterLevel = trait.Substring(trait.IndexOf(' ') + 1);
+                            loadedSuperModel.CharacterLevel = int.Parse(loadCharacterLevel);
+                        }
                         else if (trait.Contains("CurrentLocation:"))
                         {
                             var loadCharacterLocation = trait.Substring(trait.IndexOf(' ') + 1);
                             loadedSuperModel.CurrentLocation = loadCharacterLocation;
                         }
                     }
-                    Console.WriteLine($"{loadedSuperModel.CharacterID}) {loadedSuperModel.CharacterName} currently in the {loadedSuperModel.CurrentLocation}.");
+                    Console.WriteLine($"{loadedSuperModel.CharacterID}) {loadedSuperModel.CharacterName}, a level {loadedSuperModel.CharacterLevel} currently in the {loadedSuperModel.CurrentLocation}.");
                 }
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine($"{i}) Error loading save files.");
+                    Console.WriteLine($"{i}) Error loading save file.");
                     Console.ForegroundColor = ConsoleColor.Gray;
                 }
             }
@@ -142,6 +156,11 @@ namespace Services
                         {
                             var loadHealth = trait.Substring(trait.IndexOf(' ') + 1);
                             loadedSuperModel.CharacterHealth = int.Parse(loadHealth);
+                        }
+                        else if (trait.Contains("CharacterLevel:"))
+                        {
+                            var loadLevel = trait.Substring(trait.IndexOf(' ') + 1);
+                            loadedSuperModel.CharacterLevel = int.Parse(loadLevel);
                         }
                     }
                 }

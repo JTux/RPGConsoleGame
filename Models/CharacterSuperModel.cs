@@ -14,5 +14,6 @@ namespace Models
         public int CharacterBaseHealth { get; set; }
         public int CharacterMaxHealth { get; set; }
         public int CharacterHealth { get; set; }
+        public int CharacterLevel { get; set; }
     }
 }
