@@ -108,11 +108,12 @@ namespace Services
         {
             characterSuperModel = character;
             var counter = 0;
+            if (character.CurrentLocation == "city") counter = 1;
             var keepPlaying = true;
             while (keepPlaying)
             {
                 keepPlaying = SetLocation(counter);
-                counter++;
+                counter += 3;
             }
         }
 
@@ -130,9 +131,12 @@ namespace Services
             }
             else
             {
-                exploringServices.Commute();
-                Console.ReadKey();
                 characterSuperModel.CurrentLocation = "city";
+                if (n != 1)
+                {
+                    exploringServices.Commute();
+                    Console.ReadKey();
+                }
                 return EnterCity();
             }
         }

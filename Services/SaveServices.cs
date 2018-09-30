@@ -15,6 +15,7 @@ namespace Services
         public void LoadSettings()
         {
             CreateDirectories();
+            UpdateSettings();
             string settings = File.ReadAllText($"./Files/Settings.txt");
             string[] lines = settings.Split(',');
 
@@ -26,7 +27,6 @@ namespace Services
                     SaveGames = int.Parse(newValue);
                 }
             }
-            UpdateSettings();
         }
 
         public void CreateDirectories()
