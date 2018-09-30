@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Services
@@ -14,6 +15,7 @@ namespace Services
         private CharacterSuperModel characterSuperModel;
         private SaveServices saveServices = new SaveServices();
         private Random rand = new Random();
+        private Dialogue dialogue = new Dialogue();
         private ExploringServices exploringServices;
 
         public void Run()
@@ -144,8 +146,16 @@ namespace Services
                 CharacterHealth = 10,
                 CharacterMaxHealth = 10
             };
+            FirstTimeStart(newName);
             saveServices.SaveGame(characterSuperModel);
             Play(characterSuperModel);
+        }
+
+        private void FirstTimeStart(string playerName)
+        {
+            NewPage(dialogue.StartText(playerName));
+            Console.WriteLine("\nPress any button to begin your journey...");
+            Console.ReadKey();
         }
 
         private void Play(CharacterSuperModel character)

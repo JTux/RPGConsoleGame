@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dialogue.cs" />
     <Compile Include="HeaderText.cs" />
     <Compile Include="NPC.cs" />
     <Compile Include="Player.cs" />
