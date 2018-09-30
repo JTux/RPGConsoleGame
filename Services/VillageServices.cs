@@ -47,7 +47,7 @@ namespace Services
                         break;
                     case 4:
                         //-- Leave Village
-                        leaveVillage = LeaveVillage();
+                        leaveVillage = Leave();
                         break;
                     default:
                         Console.WriteLine("Invalid input.");
@@ -90,7 +90,7 @@ namespace Services
             }
         }
 
-        private bool LeaveVillage()
+        private bool Leave()
         {
             var leave = false;
             var output = false;
@@ -123,7 +123,10 @@ namespace Services
 
         private void PrintMenuOptions()
         {
-            GameService.NewPage($"\n1) Visit your Master" +
+            GameService.NewPage($"\nAh. Home sweet home. It's a perfectly boring small village but it's all you've known for most of your life.\nA small collection of huts filled with familiar faces. A few small children are running around playing a game.\nIt sure is good to be home. While you may be forced to travel now this will always be home.\nOne of the children sees you and yells \"Welcome home {_characterSuperModel.CharacterName}!\"" +
+                $"\n\n{GameService.GetCharacterStats(_characterSuperModel)}" +
+                $"\n\nWhat do you do?" +
+                $"\n\n1) Visit your Master" +
                 $"\n2) Go Home" +
                 $"\n3) Open Inventory" +
                 $"\n4) Leave Village", "village");

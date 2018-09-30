@@ -63,6 +63,5 @@ namespace Models
 
             return equipmentList;
         }
-
     }
 }

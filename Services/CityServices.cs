@@ -32,17 +32,17 @@ namespace Services
                 switch (input)
                 {
                     case 1:
-                        //-- Visit a Guild
                         GuildMenu();
                         break;
                     case 2:
-                        //-- Fight in Arena
                         GameService.NewPage("You enter the arena", "arena");
                         Console.ReadKey();
                         break;
                     case 3:
-                        //-- Sleep at Inn
-                        _characterSuperModel.CharacterHealth += healthFromInnBed;
+                        if ((_characterSuperModel.CharacterBaseHealth += healthFromInnBed) > _characterSuperModel.CharacterMaxHealth)
+                            _characterSuperModel.CharacterHealth = _characterSuperModel.CharacterMaxHealth;
+                        else
+                            _characterSuperModel.CharacterHealth += healthFromInnBed;
                         GameService.NewPage($"You sleep in a comfy bed at the inn and recover {healthFromInnBed} HP." +
                             $"\nYou now have {_characterSuperModel.CharacterHealth}/{_characterSuperModel.CharacterMaxHealth} HP.");
                         Console.ReadKey();
@@ -53,7 +53,7 @@ namespace Services
                         break;
                     case 5:
                         //-- Leave City
-                        leaveCity = LeaveCity();
+                        leaveCity = Leave();
                         break;
                     default:
                         Console.WriteLine("Invalid input.");
@@ -74,7 +74,7 @@ namespace Services
                 {
                     case 1:
                         GameService.NewPage("Shop!", "shop");
-                        Console.ReadKey();
+                        GuildStore();
                         break;
                     case 2:
                         GameService.NewPage("Master Archer", "archerGuild");
@@ -99,7 +99,34 @@ namespace Services
             }
         }
 
-        private bool LeaveCity()
+        private void GuildStore()
+        {
+            bool leaveStore = false;
+            while (!leaveStore)
+            {
+                PrintStoreMenu();
+                switch (GameService.ParseIntput())
+                {
+                    case 1:
+                        GameService.NewPage("Shop!", "shop");
+                        Console.ReadKey();
+                        break;
+                    case 2:
+                        GameService.NewPage("Sell!", "inv");
+                        Console.ReadKey();
+                        break;
+                    case 3:
+                        leaveStore = true;
+                        break;
+                    default:
+                        Console.WriteLine("Invalid input.");
+                        Console.ReadKey();
+                        break;
+                }
+            }
+        }
+
+        private bool Leave()
         {
             var leave = false;
             var output = false;
@@ -132,7 +159,10 @@ namespace Services
 
         private void PrintMenuOptions()
         {
-            GameService.NewPage($"\n1) Visit the Combat Guild" +
+            GameService.NewPage($"\nThe city is filled with people bustling about. You see women and children bouncing from one market stall to another.\nWhat really catches your eye is the massive arena in the center of town. At least maybe now you won't get lost again.\nOff in the distance you recognize the Combat Guild's banner waving over a few neighboring structures." +
+                $"\n\n{GameService.GetCharacterStats(_characterSuperModel)}" +
+                $"\n\nWhat to do?" +
+                $"\n\n1) Visit the Combat Guild" +
                 $"\n2) Fight in the Arena" +
                 $"\n3) Sleep at the Inn (+{healthFromInnBed} HP)" +
                 $"\n4) Open Inventory" +
@@ -145,6 +175,13 @@ namespace Services
                 "\n3) Speak to Master Swordsman" +
                 "\n4) Speak to Master Mage" +
                 "\n5) Return to City", "guild");
+        }
+        private void PrintStoreMenu()
+        {
+            GameService.NewPage($"\nWhat would you like to do?" +
+                $"\n1) Buy Items" +
+                $"\n2) Sell Items" +
+                $"\n3) Leave Shop", "shop");
         }
         private void PrintLeaveMenu()
         {

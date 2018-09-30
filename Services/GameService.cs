@@ -264,13 +264,10 @@ namespace Services
                 "\n2) No return to menu", "newGame");
         }
 
-        public static void PrintCharacterStats(CharacterSuperModel currentCharacter)
+        public static string GetCharacterStats(CharacterSuperModel currentCharacter)
         {
-            Console.SetCursorPosition(0, 7);
-            Console.Write($"Name: {currentCharacter.CharacterName} " +
-                $"Level: {currentCharacter.CharacterLevel} " +
-                $"Health: {currentCharacter.CharacterHealth}/{currentCharacter.CharacterMaxHealth} " +
-                $"Gold: {currentCharacter.CharacterHealth}");
+            return($"You are currently Level {currentCharacter.CharacterLevel}.\n" +
+                $"You have {currentCharacter.CharacterHealth}/{currentCharacter.CharacterMaxHealth} HP and {currentCharacter.CharacterHealth} Gold.");
         }
         public static void NewPage(string prompt)
         {
