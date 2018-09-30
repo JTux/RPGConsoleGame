@@ -9,6 +9,6 @@ namespace Models
 {
     public class NPCS
     {
-        NPC = new NPC;
+        NPC npc = new NPC();
     }
 }
