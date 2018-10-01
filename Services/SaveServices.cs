@@ -66,6 +66,7 @@ namespace Services
             characterFile.Write($"CombatStyle: {superModel.CombatStyle},");
 
             var itemIDList = "";
+            superModel.CharacterEquipment = superModel.CharacterEquipment.OrderBy(i => i.GearID).ToList();
             foreach (Equipment item in superModel.CharacterEquipment)
             {
                 itemIDList += $"{item.GearID};";

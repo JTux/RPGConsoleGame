@@ -267,7 +267,8 @@ namespace Services
         public static string GetCharacterStats(CharacterSuperModel currentCharacter)
         {
             return($"You are currently Level {currentCharacter.CharacterLevel}.\n" +
-                $"You have {currentCharacter.CharacterHealth}/{currentCharacter.CharacterMaxHealth} HP and {currentCharacter.CharacterHealth} Gold.");
+                $"You have {currentCharacter.CharacterHealth}/{currentCharacter.CharacterMaxHealth} HP and have {currentCharacter.CharacterHealth} Gold.\n" +
+                $"You are currently focusing on {currentCharacter.CombatStyle} styled combat.");
         }
         public static void NewPage(string prompt)
         {

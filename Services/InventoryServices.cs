@@ -28,13 +28,7 @@ namespace Services
                 switch (GameService.ParseIntput())
                 {
                     case 1:
-                        GameService.NewPage("\nYou look at your items" +
-                            $"\n{"ID",-2}  {"Name",-18}  {"Type",-6}  {"Lvl",-4}  {"ATK+",-4}  {"HP+",-4}", "inv");
-                        foreach (Equipment item in _characterSuperModel.CharacterEquipment)
-                        {
-                            Console.WriteLine(item);
-                        }
-                        Console.ReadLine();
+                        PrintCurrentItems();
                         break;
                     case 2:
                         ChooseCombatStyle();
@@ -55,7 +49,23 @@ namespace Services
             return false;
         }
 
-        public void ChooseCombatStyle()
+        private void PrintCurrentItems()
+        {
+            var currentType = GearType.Melee;
+            if (_characterSuperModel.CombatStyle == StyleType.Melee) currentType = GearType.Melee;
+            else if (_characterSuperModel.CombatStyle == StyleType.Ranged) currentType = GearType.Ranged;
+            else if (_characterSuperModel.CombatStyle == StyleType.Mage) currentType = GearType.Mage;
+
+            GameService.NewPage("\nYou look at your items" +
+                            $"\n{"ID",-2}  {"Name",-18}  {"Type",-6}  {"Lvl",-4}  {"ATK+",-4}  {"HP+",-4}", "inv");
+            foreach (Equipment item in _characterSuperModel.CharacterEquipment.Where(i => i.GearType == currentType))
+            {
+                Console.WriteLine(item);
+            }
+            Console.ReadLine();
+        }
+
+        private void ChooseCombatStyle()
         {
             var exit = false;
             while (!exit)
@@ -80,7 +90,7 @@ namespace Services
                         break;
                 }
             }
-            Console.WriteLine("Style changed!");
+            Console.WriteLine("Style set!");
             Console.ReadKey();
         }
 
@@ -188,15 +198,17 @@ namespace Services
 
         private void PrintStyleMenu()
         {
-            GameService.NewPage("\nWhich combat style would you like to focus on?" +
+            GameService.NewPage($"\nYour current Combat Style is set to {_characterSuperModel.CombatStyle}." +
+                "\n\nWhich combat style would you like to focus on?" +
                 "\n1) Melee" +
                 "\n2) Ranged" +
                 "\n3) Mage", "inv");
         }
         private void PrintInvMenu()
         {
-            GameService.NewPage("\nWhat would you like to do?" +
-                "\n1) See Items" +
+            GameService.NewPage($"\n{GameService.GetCharacterStats(_characterSuperModel)}" +
+                "\n\nWhat would you like to do?" +
+                $"\n1) See {_characterSuperModel.CombatStyle} Items" +
                 "\n2) Choose Combat Style" +
                 "\n3) Save and Quit" +
                 "\n4) Exit Inventory", "inv");
