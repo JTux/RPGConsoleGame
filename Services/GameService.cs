@@ -129,11 +129,36 @@ namespace Services
         {
             NewPage("\nWhat's your name?", "newGame");
             string newName;
+            StyleType newCombatStyle = StyleType.Melee;
             while (true)
             {
                 newName = Console.ReadLine();
                 if (newName != "" && !newName.Contains(",")) break;
                 else Console.Write("Enter valid name: ");
+            }
+
+            //PromptToPickStyle
+            var pickingStyle = true;
+            while (pickingStyle)
+            {
+                pickingStyle = false;
+                switch (ParseIntput())
+                {
+                    case 1:
+                        newCombatStyle = StyleType.Melee;
+                        break;
+                    case 2:
+                        newCombatStyle = StyleType.Ranged;
+                        break;
+                    case 3:
+                        newCombatStyle = StyleType.Mage;
+                        break;
+                    default:
+                        pickingStyle = true;
+                        Console.WriteLine("Invalid input");
+                        Console.ReadKey();
+                        break;
+                }
             }
 
             SaveServices.SaveGames++;
@@ -144,7 +169,8 @@ namespace Services
                 CharacterLevel = 1,
                 CharacterBaseHealth = 10,
                 CharacterHealth = 10,
-                CharacterMaxHealth = 10
+                CharacterMaxHealth = 10,
+                CombatStyle = newCombatStyle,
             };
             FirstTimeStart(newName);
             saveServices.SaveGame(characterSuperModel);
