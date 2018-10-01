@@ -49,14 +49,14 @@ namespace Services
 
         private void NeutralEvent()
         {
-            GameService.NewPage("Neutral Event");
-            _combatService.EncounterFight(_characterSuperModel);
+            GameService.NewPage("You found nothing and decided to head back.");
         }
 
         private void PositiveEvent()
         {
-            GameService.NewPage("Good Event");
-            _combatService.EncounterFight(_characterSuperModel);
+            var newRand = _rand.Next(8);
+            GameService.NewPage($"While exploring you found {newRand} Gold!");
+            _characterSuperModel.Gold += newRand;
         }
 
         private void NegativeCommute()
@@ -67,14 +67,14 @@ namespace Services
 
         private void NeutralCommute()
         {
-            GameService.NewPage("Neutral Commute");
-            _combatService.EncounterFight(_characterSuperModel);
+            GameService.NewPage("Your commute went entirely uninterrupted.");
         }
 
         private void PositiveCommute()
         {
-            GameService.NewPage("Good Commute");
-            _combatService.EncounterFight(_characterSuperModel);
+            var newRand = _rand.Next(5);
+            GameService.NewPage($"While exploring you found {newRand} Gold!");
+            _characterSuperModel.Gold += newRand;
         }
 
         private int GetChance()

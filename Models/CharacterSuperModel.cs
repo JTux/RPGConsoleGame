@@ -20,6 +20,7 @@ namespace Models
         public bool IsDead { get; set; }
         public int ArenaWins { get; set; }
         public int Gold { get; set; }
+        public int PotionCount { get; set; }
         public StyleType CombatStyle { get; set; }
         public List<Equipment> CharacterEquipment { get; set; }
         public List<Attacks> CharacterAttacks { get; set; }
