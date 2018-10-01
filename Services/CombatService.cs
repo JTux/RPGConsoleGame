@@ -75,14 +75,14 @@ namespace Services
 
             while (CurrentStatus.CharacterHealth > 0 && EnemyCurrentStatus.HP > 0)
             {
-                Repeat:
+            Repeat:
                 Console.Clear();
                 Console.WriteLine($"{EnemyCurrentStatus.NPCName}\n" +
                     $"Hp:{EnemyCurrentStatus.HP}/{enemy.HP}\n\n\n\n\n" +
                     $"{CurrentStatus.CharacterName}\n" +
                     $"Hp: {CurrentStatus.CharacterHealth}/{CurrentStatus.CharacterMaxHealth}\n" +
                     "[1. Attack]\n" +
-                    "[2. Drink Hp Pot]: "+(CurrentStatus.PotionCount) +" Remaining \n" +
+                    "[2. Drink Hp Pot]: " + (CurrentStatus.PotionCount) + " Remaining \n" +
                     "[3. Run]\n"
                     );
                 char response = Console.ReadKey().KeyChar;
@@ -91,7 +91,7 @@ namespace Services
                 {
                     case '1':
                         {
-                            EnemyCurrentStatus.HP -= YourAtkResult( DisplayAndPickAtkOptions(_characterSuperModel.CharacterAttacks).DMG);
+                            EnemyCurrentStatus.HP -= YourAtkResult(DisplayAndPickAtkOptions(_characterSuperModel.CharacterAttacks).DMG);
                             break;
                         }
                     case '2':
@@ -99,7 +99,9 @@ namespace Services
                             if (CurrentStatus.PotionCount > 0)
                             {
                                 CurrentStatus.PotionCount--;
-                                CurrentStatus.CharacterHealth += 10;
+                                if ((CurrentStatus.CharacterHealth + 10) <= CurrentStatus.CharacterMaxHealth)
+                                    CurrentStatus.CharacterHealth += 10;
+                                else CurrentStatus.CharacterHealth = CurrentStatus.CharacterMaxHealth;
                                 Console.WriteLine("You Feel Better.");
                                 Thread.Sleep(1000);
                             }
@@ -122,7 +124,7 @@ namespace Services
                             goto Repeat;
                         }
                 }
-                if (enemy.HP >= 1){ EnemyAtk(enemy.ATK); }
+                if (enemy.HP >= 1) { EnemyAtk(enemy.ATK); }
             }
             if (_characterSuperModel.CharacterHealth > 0)
             {
@@ -133,7 +135,7 @@ namespace Services
                 _characterSuperModel.Gold += ((enemy.ATK) * 2);
             }
             else { _characterSuperModel.IsDead = true; }
-            EndFight:;
+        EndFight:;
         }
 
         private void EnemyAtk(int enemyAtk)
@@ -156,11 +158,11 @@ namespace Services
             int chance = rnd.Next(1, 100);
             if (chance > 30)
             {
-                Console.WriteLine("You hit for " +(yourAtk)+" attack!!!");
+                Console.WriteLine("You hit for " + (yourAtk) + " attack!!!");
                 Thread.Sleep(1500);
                 return yourAtk;
             }
-            else if(chance >10 && chance <= 30) 
+            else if (chance > 10 && chance <= 30)
             {
                 Console.WriteLine("The Enemy dodged the attack!!!");
                 Thread.Sleep(1500);
@@ -168,7 +170,7 @@ namespace Services
             }
             else
             {
-                Console.WriteLine("You Crit for "+ (yourAtk * 2) +"Damage");
+                Console.WriteLine("You Crit for " + (yourAtk * 2) + "Damage");
                 Thread.Sleep(1500);
                 return (yourAtk * 2);
             }
@@ -178,32 +180,35 @@ namespace Services
         {
             var list = _characterSuperModel.CharacterAttacks;
         }
-        private Attacks DisplayAndPickAtkOptions(List<Attacks> attacks) {
+        private Attacks DisplayAndPickAtkOptions(List<Attacks> attacks)
+        {
 
             List<Attacks> attacksLocal = new List<Attacks>();
-            
+
             string b = _characterSuperModel.CombatStyle.ToString();
 
-            TopList:
+        TopList:
             int i = 0;
             Console.Clear();
             Console.WriteLine("Choose An Atk:");
-            foreach (var attack in attacks) {
-                
+            foreach (var attack in attacks)
+            {
+
                 string a = attack.TypeOfAtk.ToString();
-                if (a == b) {
+                if (a == b)
+                {
                     i++;
                     attacksLocal.Add(attack);
-                    Console.WriteLine(i+") "+ attack.ATKName);
+                    Console.WriteLine(i + ") " + attack.ATKName);
                 }
             }
             var resp = (Console.ReadKey().KeyChar).ToString();
             Console.Clear();
             if (int.TryParse(resp, out int respInt))
             {
-                if (respInt < (attacksLocal.Count +1) && respInt > 0)
+                if (respInt < (attacksLocal.Count + 1) && respInt > 0)
                 {
-                   return attacksLocal.ElementAt((respInt - 1));
+                    return attacksLocal.ElementAt((respInt - 1));
                 }
                 else { goto TopList; }
             }
