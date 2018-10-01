@@ -14,6 +14,7 @@ namespace Services
         private CharacterSuperModel _characterSuperModel;
         private List<Equipment> _shopEquipmentList;
         private SaveServices _saveServices = new SaveServices();
+        private CombatService _combatService;
 
         public CityServices(CharacterSuperModel characterSuperModel, ExploringServices exploringServices)
         {
@@ -21,6 +22,7 @@ namespace Services
             _exploringServices = exploringServices;
             _inventoryServices = new InventoryServices(_characterSuperModel);
             _shopEquipmentList = _inventoryServices.GetEquipment();
+            _combatService = new CombatService(_characterSuperModel);
         }
 
         private int healthFromInnBed = 8;
@@ -39,8 +41,7 @@ namespace Services
                         GuildMenu();
                         break;
                     case 2:
-                        GameService.NewPage("You enter the arena", "arena");
-                        Console.ReadKey();
+                        EnterArena();
                         break;
                     case 3:
                         if ((_characterSuperModel.CharacterBaseHealth += healthFromInnBed) > _characterSuperModel.CharacterMaxHealth)
@@ -65,6 +66,17 @@ namespace Services
                 }
             }
             return leaveCity;
+        }
+
+        private void EnterArena()
+        {
+            GameService.NewPage("You enter the arena", "arena");
+            _combatService.ArenaFight(_characterSuperModel);
+            if (_characterSuperModel.IsDead)
+            {
+                Console.WriteLine("YOU DIED");
+                Console.ReadKey();
+            }
         }
 
         private void GuildMenu()

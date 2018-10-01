@@ -24,6 +24,7 @@ namespace Models
         public StyleType CombatStyle { get; set; }
         public List<Equipment> CharacterEquipment { get; set; }
         public List<Attacks> CharacterAttacks { get; set; }
+
       
         public CharacterSuperModel()
         {

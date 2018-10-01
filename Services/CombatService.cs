@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Services
@@ -95,11 +96,26 @@ namespace Services
                         }
                     case '2':
                         {
+                            if (CurrentStatus.PotionCount > 0)
+                            {
+                                CurrentStatus.PotionCount--;
+                                CurrentStatus.CharacterHealth += 10;
+                                Console.WriteLine("You Feel Better.");
+                                Thread.Sleep(1000);
+                            }
+                            else
+                            {
+                                Console.WriteLine("You are out of Potions!");
+                                goto Repeat;
+                            }
                             break;
                         }
                     case '3':
                         {
-                            break;
+                            Console.WriteLine("You Ran...");
+                            Thread.Sleep(1000);
+                            goto EndFight;
+                           
                         }
                     default:
                         {
@@ -114,6 +130,7 @@ namespace Services
                 _characterSuperModel.Gold += ((enemy.ATK) * 2);
             }
             else { _characterSuperModel.IsDead = true; }
+            EndFight:;
         }
 
         private void EnemyAtk(int enemyAtk)
@@ -126,6 +143,7 @@ namespace Services
             else
             {
                 Console.WriteLine("You dodge the atk!!!");
+                Thread.Sleep(1500);
             }
         }
 
@@ -135,16 +153,19 @@ namespace Services
             if (chance > 30)
             {
                 Console.WriteLine("You hit for " +(yourAtk)+" atk!!!");
+                Thread.Sleep(1500);
                 return yourAtk;
             }
             else if(chance >10 && chance <= 30) 
             {
                 Console.WriteLine("The Enemy dodge the atk!!!");
+                Thread.Sleep(1500);
                 return 0;
             }
             else
             {
                 Console.WriteLine("You Crit for "+ (yourAtk * (13/10)) +"Damage");
+                Thread.Sleep(1500);
                 return (yourAtk * (13 / 10));
             }
         }
@@ -156,25 +177,27 @@ namespace Services
         private Attacks DisplayAndPickAtkOptions(List<Attacks> attacks) {
 
             List<Attacks> attacksLocal = new List<Attacks>();
-            int i = 0;
+            
             string b = _characterSuperModel.CombatStyle.ToString();
 
             TopList:
+            int i = 0;
             Console.Clear();
             Console.WriteLine("Choose An Atk:");
             foreach (var attack in attacks) {
-                i++;
+                
                 string a = attack.TypeOfAtk.ToString();
                 if (a == b) {
+                    i++;
                     attacksLocal.Add(attack);
                     Console.WriteLine(i+") "+ attack.ATKName);
                 }
-                Console.ReadKey();
             }
             var resp = (Console.ReadKey().KeyChar).ToString();
+            Console.Clear();
             if (int.TryParse(resp, out int respInt))
             {
-                if (respInt < 6 && respInt > 0)
+                if (respInt < (attacksLocal.Count +1) && respInt > 0)
                 {
                    return attacksLocal.ElementAt((respInt - 1));
                 }
