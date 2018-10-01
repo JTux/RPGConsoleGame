@@ -73,6 +73,14 @@ namespace Services
             }
             characterFile.Write($"CharacterItems: {itemIDList},");
 
+            var attackIDList = "";
+            superModel.CharacterAttacks = superModel.CharacterAttacks.OrderBy(i => i.ATKID).ToList();
+            foreach (Attacks attack in superModel.CharacterAttacks)
+            {
+                attackIDList += $"{attack.ATKID};";
+            }
+            characterFile.Write($"CharacterAttacks: {attackIDList},");
+
             characterFile.Close();
             UpdateSettings();
         }
@@ -223,6 +231,23 @@ namespace Services
                                 {
                                     var newItem = getItems.FirstOrDefault(l => l.GearID == int.Parse(itemID));
                                     loadedSuperModel.CharacterEquipment.Add(newItem);
+                                }
+                            }
+                        }
+                        else if (trait.Contains("CharacterAttacks:"))
+                        {
+                            var invService = new InventoryServices();
+                            var getATtacks = invService.GetAttacks();
+
+                            var loadAttacksString = trait.Substring(trait.IndexOf(' ') + 1);
+                            string[] loadedAttackIDs = loadAttacksString.Split(';');
+
+                            foreach (var attackID in loadedAttackIDs)
+                            {
+                                if (attackID != "")
+                                {
+                                    var newAttack = getATtacks.FirstOrDefault(l => l.ATKID == int.Parse(attackID));
+                                    loadedSuperModel.CharacterAttacks.Add(newAttack);
                                 }
                             }
                         }
