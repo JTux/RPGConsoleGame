@@ -137,7 +137,7 @@ namespace Services
                 else Console.Write("Enter valid name: ");
             }
 
-            //PromptToPickStyle
+            PrintFirstStylePicker();
             var pickingStyle = true;
             while (pickingStyle)
             {
@@ -172,6 +172,10 @@ namespace Services
                 CharacterMaxHealth = 10,
                 CombatStyle = newCombatStyle,
             };
+            characterSuperModel.CharacterAttacks.Add(new Attacks() { ATKID = 1, ATKName = "Pierce", TypeOfAtk = AtkType.Melee, DMG = 3, LVToUSE = 1 });
+            characterSuperModel.CharacterAttacks.Add(new Attacks() { ATKID = 11, ATKName = "Volley", TypeOfAtk = AtkType.Ranged, DMG = 3, LVToUSE = 1 });
+            characterSuperModel.CharacterAttacks.Add(new Attacks() { ATKID = 21, ATKName = "Mystic Shot", TypeOfAtk = AtkType.Mage, DMG = 3, LVToUSE = 1 });
+
             FirstTimeStart(newName);
             saveServices.SaveGame(characterSuperModel);
             Play(characterSuperModel);
@@ -288,6 +292,15 @@ namespace Services
             NewPage("\nDo you want to start a new game?" +
                 "\n1) Yes begin new game" +
                 "\n2) No return to menu", "newGame");
+        }
+        private void PrintFirstStylePicker()
+        {
+            Console.WriteLine($"Welcome. In this game there are three different combat styles which include different attacks and weapons." +
+                "\nWhile one style can be utilized at any given time, you can change this at any time in your inventory." +
+                "\nWhich combat style would you like to start with?" +
+                "\n1) Melee" +
+                "\n2) Ranged" +
+                "\n3) Mage");
         }
 
         public static string GetCharacterStats(CharacterSuperModel currentCharacter)

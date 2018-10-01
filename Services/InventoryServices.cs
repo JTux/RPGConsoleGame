@@ -31,12 +31,15 @@ namespace Services
                         PrintCurrentItems();
                         break;
                     case 2:
-                        ChooseCombatStyle();
+                        PrintCurrentAttacks();
                         break;
                     case 3:
+                        ChooseCombatStyle();
+                        break;
+                    case 4:
                         if (SaveAndQuit()) return true;
                         else break;
-                    case 4:
+                    case 5:
                         exit = true;
                         break;
                     default:
@@ -61,6 +64,22 @@ namespace Services
             foreach (Equipment item in _characterSuperModel.CharacterEquipment.Where(i => i.GearType == currentType))
             {
                 Console.WriteLine(item);
+            }
+            Console.ReadLine();
+        }
+
+        private void PrintCurrentAttacks()
+        {
+            var currentType = AtkType.Melee;
+            if (_characterSuperModel.CombatStyle == StyleType.Melee) currentType = AtkType.Melee;
+            else if (_characterSuperModel.CombatStyle == StyleType.Ranged) currentType = AtkType.Ranged;
+            else if (_characterSuperModel.CombatStyle == StyleType.Mage) currentType = AtkType.Mage;
+
+            GameService.NewPage("\nYou look at your items" +
+                            $"\n{"ID",-2}  {"Name",-20}  {"Type",-6}  {"Lvl",-3}  {"Stun",-5}  {"D.O.T.",-6}  {"Stealth",-5}", "inv");
+            foreach (Attacks attack in _characterSuperModel.CharacterAttacks.Where(i => i.TypeOfAtk == currentType))
+            {
+                Console.WriteLine(attack);
             }
             Console.ReadLine();
         }
@@ -150,6 +169,32 @@ namespace Services
             return confirm;
         }
 
+
+        private void PrintStyleMenu()
+        {
+            GameService.NewPage($"\nYour current Combat Style is set to {_characterSuperModel.CombatStyle}." +
+                "\n\nWhich combat style would you like to focus on?" +
+                "\n1) Melee" +
+                "\n2) Ranged" +
+                "\n3) Mage", "inv");
+        }
+        private void PrintInvMenu()
+        {
+            GameService.NewPage($"\n{GameService.GetCharacterStats(_characterSuperModel)}" +
+                "\n\nWhat would you like to do?" +
+                $"\n1) See owned {_characterSuperModel.CombatStyle} Items" +
+                $"\n2) See known {_characterSuperModel.CombatStyle} Attacks" +
+                "\n3) Choose Combat Style" +
+                "\n4) Save and Quit" +
+                "\n5) Exit Inventory", "inv");
+        }
+        private void PrintChestMenu()
+        {
+            GameService.NewPage("\nWhat would you like to do?" +
+                "\n1) Take Items" +
+                "\n2) Store Items" +
+                "\n3) Exit Chest", "chest");
+        }
         public List<Equipment> GetEquipment()
         {
             List<Equipment> equipmentList = new List<Equipment>
@@ -195,30 +240,40 @@ namespace Services
 
             return equipmentList;
         }
+        public List<Attacks> GetAttacks()
+        {
+            List<Attacks> listOfATKS = new List<Attacks>();
 
-        private void PrintStyleMenu()
-        {
-            GameService.NewPage($"\nYour current Combat Style is set to {_characterSuperModel.CombatStyle}." +
-                "\n\nWhich combat style would you like to focus on?" +
-                "\n1) Melee" +
-                "\n2) Ranged" +
-                "\n3) Mage", "inv");
-        }
-        private void PrintInvMenu()
-        {
-            GameService.NewPage($"\n{GameService.GetCharacterStats(_characterSuperModel)}" +
-                "\n\nWhat would you like to do?" +
-                $"\n1) See {_characterSuperModel.CombatStyle} Items" +
-                "\n2) Choose Combat Style" +
-                "\n3) Save and Quit" +
-                "\n4) Exit Inventory", "inv");
-        }
-        private void PrintChestMenu()
-        {
-            GameService.NewPage("\nWhat would you like to do?" +
-                "\n1) Take Items" +
-                "\n2) Store Items" +
-                "\n3) Exit Chest", "chest");
+            listOfATKS.Add(new Attacks() { ATKID = 1, ATKName = "Pierce", TypeOfAtk = AtkType.Melee, DMG = 3, LVToUSE = 1 });
+            listOfATKS.Add(new Attacks() { ATKID = 2, ATKName = "Blinding Rage", TypeOfAtk = AtkType.Melee, DMG = 4, LVToUSE = 5 });
+            listOfATKS.Add(new Attacks() { ATKID = 3, ATKName = "Ambush", TypeOfAtk = AtkType.Melee, DMG = 5, LVToUSE = 10 });
+            listOfATKS.Add(new Attacks() { ATKID = 4, ATKName = "Double Daggers", TypeOfAtk = AtkType.Melee, DMG = 6, LVToUSE = 15 });
+            listOfATKS.Add(new Attacks() { ATKID = 5, ATKName = "Leap", TypeOfAtk = AtkType.Melee, DMG = 7, LVToUSE = 20, Stun = true });
+            listOfATKS.Add(new Attacks() { ATKID = 6, ATKName = "Takedown", TypeOfAtk = AtkType.Melee, DMG = 8, LVToUSE = 25 });
+            listOfATKS.Add(new Attacks() { ATKID = 7, ATKName = "Poison Shiv", TypeOfAtk = AtkType.Melee, DMG = 9, LVToUSE = 30, DamageOverTime = true });
+            listOfATKS.Add(new Attacks() { ATKID = 8, ATKName = "Shadow Assault", TypeOfAtk = AtkType.Melee, DMG = 10, LVToUSE = 35, Stealth = true });
+
+
+            listOfATKS.Add(new Attacks() { ATKID = 11, ATKName = "Volley", TypeOfAtk = AtkType.Ranged, DMG = 3, LVToUSE = 1 });
+            listOfATKS.Add(new Attacks() { ATKID = 12, ATKName = "Rapid Fire", TypeOfAtk = AtkType.Ranged, DMG = 4, LVToUSE = 5 });
+            listOfATKS.Add(new Attacks() { ATKID = 13, ATKName = "Hail of Arrows", TypeOfAtk = AtkType.Ranged, DMG = 5, LVToUSE = 10 });
+            listOfATKS.Add(new Attacks() { ATKID = 14, ATKName = "Trueshot", TypeOfAtk = AtkType.Ranged, DMG = 6, LVToUSE = 15 });
+            listOfATKS.Add(new Attacks() { ATKID = 15, ATKName = "Quickdraw", TypeOfAtk = AtkType.Ranged, DMG = 7, LVToUSE = 20 });
+            listOfATKS.Add(new Attacks() { ATKID = 16, ATKName = "Piercing Arrow", TypeOfAtk = AtkType.Ranged, DMG = 8, LVToUSE = 25, Stun = true });
+            listOfATKS.Add(new Attacks() { ATKID = 17, ATKName = "Toxic Shot", TypeOfAtk = AtkType.Ranged, DMG = 9, LVToUSE = 30, DamageOverTime = true });
+            listOfATKS.Add(new Attacks() { ATKID = 18, ATKName = "Blinding Dart", TypeOfAtk = AtkType.Ranged, DMG = 10, LVToUSE = 35, Stealth = true });
+
+
+            listOfATKS.Add(new Attacks() { ATKID = 21, ATKName = "Mystic Shot", TypeOfAtk = AtkType.Mage, DMG = 3, LVToUSE = 1 });
+            listOfATKS.Add(new Attacks() { ATKID = 22, ATKName = "Rain of Smoke", TypeOfAtk = AtkType.Mage, DMG = 4, LVToUSE = 5 });
+            listOfATKS.Add(new Attacks() { ATKID = 23, ATKName = "Shroud of Darkness", TypeOfAtk = AtkType.Mage, DMG = 5, LVToUSE = 10, Stealth = true });
+            listOfATKS.Add(new Attacks() { ATKID = 24, ATKName = "Piercing Light", TypeOfAtk = AtkType.Mage, DMG = 6, LVToUSE = 15 });
+            listOfATKS.Add(new Attacks() { ATKID = 25, ATKName = "Lightning artillery", TypeOfAtk = AtkType.Mage, DMG = 7, LVToUSE = 20 });
+            listOfATKS.Add(new Attacks() { ATKID = 26, ATKName = "Ardent Blaze", TypeOfAtk = AtkType.Mage, DMG = 8, LVToUSE = 25 });
+            listOfATKS.Add(new Attacks() { ATKID = 27, ATKName = "Contaminate", TypeOfAtk = AtkType.Mage, DMG = 9, LVToUSE = 30, DamageOverTime = true });
+            listOfATKS.Add(new Attacks() { ATKID = 28, ATKName = "Ethereal Chains", TypeOfAtk = AtkType.Mage, DMG = 10, LVToUSE = 35, Stun = true });
+
+            return listOfATKS;
         }
     }
 }
