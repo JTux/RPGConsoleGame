@@ -52,6 +52,7 @@ namespace Services
         private void NeutralEvent()
         {
             GameService.NewPage("\nYou found nothing and decided to head back.", "filler");
+            Console.ReadKey();
         }
 
         private void PositiveEvent()
@@ -59,6 +60,7 @@ namespace Services
             var newRand = _rand.Next(1, 4);
             GameService.NewPage($"\nWhile exploring you found {newRand} Gold!", "event");
             _characterSuperModel.Gold += newRand;
+            Console.ReadKey();
         }
 
         private void NegativeCommute()
@@ -69,6 +71,7 @@ namespace Services
         private void NeutralCommute()
         {
             GameService.NewPage("\nYour commute went entirely uninterrupted.", "filler");
+            Console.ReadKey();
         }
 
         private void PositiveCommute()
@@ -76,6 +79,7 @@ namespace Services
             var newRand = _rand.Next(1, 2);
             GameService.NewPage($"\nWhile on your way you found {newRand} Gold!", "event");
             _characterSuperModel.Gold += newRand;
+            Console.ReadKey();
         }
 
         private int GetChance()
