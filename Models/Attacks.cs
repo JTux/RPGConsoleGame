@@ -25,7 +25,7 @@ namespace Models
 
             List<Attacks> listOfATKS = new List<Attacks>();
 
-            listOfATKS.Add(new Attacks() { ATKID = 1 , ATKName = "Pierce", TypeOfAtk = AtkType.Melee, DMG = 3 , LVToUSE = 1 });
+            listOfATKS.Add(new Attacks() { ATKID = 1, ATKName = "Pierce", TypeOfAtk = AtkType.Melee, DMG = 3, LVToUSE = 1 });
             listOfATKS.Add(new Attacks() { ATKID = 2 , ATKName = "Blinding Rage", TypeOfAtk = AtkType.Melee, DMG = 4 , LVToUSE = 5 });
             listOfATKS.Add(new Attacks() { ATKID = 3 , ATKName = "Ambush", TypeOfAtk = AtkType.Melee, DMG = 5 , LVToUSE = 10 });
             listOfATKS.Add(new Attacks() { ATKID = 4 , ATKName = "Double Daggers", TypeOfAtk = AtkType.Melee, DMG = 6 , LVToUSE = 15 });
