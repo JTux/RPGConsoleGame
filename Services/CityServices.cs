@@ -80,16 +80,13 @@ namespace Services
                         GuildStore();
                         break;
                     case 2:
-                        GameService.NewPage("Master Swordsman", "meleeGuild");
-                        Console.ReadKey();
+                        VisitGuildMaster("Melee");
                         break;
                     case 3:
-                        GameService.NewPage("Master Archer", "archerGuild");
-                        Console.ReadKey();
+                        VisitGuildMaster("Ranged");
                         break;
                     case 4:
-                        GameService.NewPage("Master Mage", "mageGuild");
-                        Console.ReadKey();
+                        VisitGuildMaster("Mage");
                         break;
                     case 5:
                         leaveGuild = true;
@@ -100,6 +97,62 @@ namespace Services
                         break;
                 }
             }
+        }
+
+        private void VisitGuildMaster(string guildName)
+        {
+            var guildKey = "";
+            switch (guildName)
+            {
+                case "Melee":
+                    guildKey = "meleeGuild";
+                    break;
+                case "Ranged":
+                    guildKey = "archerGuild";
+                    break;
+                case "Mage":
+                    guildKey = "mageGuild";
+                    break;
+            }
+
+            var exit = false;
+            while (!exit)
+            {
+                exit = true;
+
+                GameService.NewPage($"\nYou approach the {guildName} Guild Master and..." +
+                    $"1) Learn new Attacks" +
+                    $"2) Leave", guildKey);
+                switch (GameService.ParseIntput())
+                {
+                    case 1:
+                        LearnAttacks(_characterSuperModel, guildName);
+                        break;
+                    case 2:
+                        break;
+                    default:
+                        Console.WriteLine("Invalid input");
+                        Console.ReadKey();
+                        break;
+                }
+            }
+            Console.ReadKey();
+        }
+
+        private void LearnAttacks(CharacterSuperModel character, string guildName)
+        {
+            var invService = new InventoryServices();
+            var attackList = invService.GetAttacks();
+            var count = 0;
+            foreach (Attacks attack in attackList)
+            {
+                if (attack.LVToUSE >= character.CharacterLevel)
+                {
+                    count++;
+                    character.CharacterAttacks.Add(attack);
+                }
+            }
+            Console.WriteLine($"You learned {count} new attack(s)");
         }
 
         private void GuildStore()

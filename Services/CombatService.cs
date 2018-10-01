@@ -10,7 +10,7 @@ namespace Services
     public class CombatService
     {
         private CharacterSuperModel _characterSuperModel;
-        private NPCS _nPCS;
+        private NPCS _nPCS = new NPCS();
         private Equipment _equipment;
         private Attacks _attacks;
         private List<NPCS> _NpcList;
@@ -18,6 +18,13 @@ namespace Services
         private List<Attacks> _AttackList;
         private NPCS currentFlight;
         private Random rnd = new Random();
+
+        public CombatService(CharacterSuperModel character)
+        {
+            _EquipmentList = character.CharacterEquipment;
+            _AttackList = character.CharacterAttacks;
+            _NpcList = _nPCS.GetNPCS();
+        }
 
         public CharacterSuperModel EncounterFight(CharacterSuperModel characterSuperModel)
         {
@@ -83,9 +90,7 @@ namespace Services
                 {
                     case '1':
                         {
-                            Console.WriteLine();
-
-                            EnemyCurrentStatus.HP -= YourAtkResult(yourATK);
+                            EnemyCurrentStatus.HP -= YourAtkResult( DisplayAndPickAtkOptions(_characterSuperModel.CharacterAttacks).DMG);
                             break;
                         }
                     case '2':
@@ -100,14 +105,8 @@ namespace Services
                         {
                             goto Repeat;
                         }
-
                 }
-                //YourAtk(Curre);
                 if (enemy.HP >= 1){ EnemyAtk(enemy.ATK); }
-               
-                
-
-                   
             }
             if (_characterSuperModel.CharacterHealth > 0)
             {
@@ -152,8 +151,36 @@ namespace Services
 
         private void grabAtkOptions()
         {
-        
+            var list = _characterSuperModel.CharacterAttacks;
         }
+        private Attacks DisplayAndPickAtkOptions(List<Attacks> attacks) {
 
+            List<Attacks> attacksLocal = new List<Attacks>();
+            int i = 0;
+            string b = _characterSuperModel.CombatStyle.ToString();
+
+            TopList:
+            Console.Clear();
+            Console.WriteLine("Choose An Atk:");
+            foreach (var attack in attacks) {
+                i++;
+                string a = attack.TypeOfAtk.ToString();
+                if (a == b) {
+                    attacksLocal.Add(attack);
+                    Console.WriteLine(i+") "+ attack.ATKName);
+                }
+                Console.ReadKey();
+            }
+            var resp = (Console.ReadKey().KeyChar).ToString();
+            if (int.TryParse(resp, out int respInt))
+            {
+                if (respInt < 6 && respInt > 0)
+                {
+                   return attacksLocal.ElementAt((respInt - 1));
+                }
+                else { goto TopList; }
+            }
+            else { goto TopList; }
+        }
     }
 }
