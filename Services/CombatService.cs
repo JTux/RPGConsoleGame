@@ -24,7 +24,6 @@ namespace Services
         {
             _EquipmentList = character.CharacterEquipment;
             _AttackList = character.CharacterAttacks;
-            _NpcList = _nPCS.GetNPCS();
         }
 
         public CharacterSuperModel EncounterFight(CharacterSuperModel characterSuperModel)
@@ -82,7 +81,7 @@ namespace Services
                     $"{CurrentStatus.CharacterName}\n" +
                     $"Hp: {CurrentStatus.CharacterHealth}/{CurrentStatus.CharacterMaxHealth}\n" +
                     "[1. Attack]\n" +
-                    "[2.Drink Hp Pot]: 1 Remaining \n" +
+                    "[2.Drink Hp Pot]: "+(CurrentStatus.PotionCount) +" Remaining \n" +
                     "[3. Run]\n"
                     );
                 char response = Console.ReadKey().KeyChar;
@@ -164,9 +163,9 @@ namespace Services
             }
             else
             {
-                Console.WriteLine("You Crit for "+ (yourAtk * (13/10)) +"Damage");
+                Console.WriteLine("You Crit for "+ (yourAtk * 2) +"Damage");
                 Thread.Sleep(1500);
-                return (yourAtk * (13 / 10));
+                return (yourAtk * 2);
             }
         }
 
