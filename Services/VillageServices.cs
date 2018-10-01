@@ -36,7 +36,7 @@ namespace Services
                     case 1:
                         GameService.NewPage("\nYou go knock on the elder's door to recieve instruction. After a minute or so of waiting you realize no one is home." +
                             "\nOff in the distance you hear someone muttering something about maybe not waiting until the weekend next time and actually\n" +
-                            "implementing features they advertise. Then again, maybe you're hearing things. It's okay though, you don't need handholding.","elder");
+                            "implementing features they advertise. Then again, maybe you're hearing things. It's okay though, you don't need handholding.", "elder");
                         Console.ReadKey();
                         break;
                     case 2:
@@ -71,7 +71,7 @@ namespace Services
                         _inventoryServices.AccessChest();
                         break;
                     case 2:
-                        if ((_characterSuperModel.CharacterBaseHealth += healthFromPlayerBed) > _characterSuperModel.CharacterMaxHealth)
+                        if ((_characterSuperModel.CharacterHealth += healthFromPlayerBed) > _characterSuperModel.CharacterMaxHealth)
                             _characterSuperModel.CharacterHealth = _characterSuperModel.CharacterMaxHealth;
                         else
                             _characterSuperModel.CharacterHealth += healthFromPlayerBed;
@@ -102,7 +102,13 @@ namespace Services
                 {
                     case 1:
                         var isDead = _exploringServices.Explore();
-                        Console.ReadKey();
+                        if (isDead)
+                        {
+                            GameService.NewPage("You slowly open your eyes. \"Wha.. what happened?\"\n" +
+                            "Near your bed you find a note a note. It reads:\n\n" +
+                            "\"Found you beaten and bruised out by the road. What kind of champion are you trying to be? Don't do it again.\"");
+                            Console.ReadKey();
+                        }
                         output = false;
                         break;
                     case 2:

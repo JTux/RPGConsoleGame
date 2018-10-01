@@ -299,8 +299,14 @@ namespace Services
                 switch (GameService.ParseIntput())
                 {
                     case 1:
-                        _exploringServices.Explore();
-                        Console.ReadKey();
+                        var isDead = _exploringServices.Explore();
+                        if (isDead)
+                        {
+                            GameService.NewPage("You slowly open your eyes. \"Wha.. what happened?\"\n" +
+                            "Near your bed you find a note a note. It reads:\n\n" +
+                            "\"Found you beaten and bruised out by the road. What kind of champion are you trying to be? Don't do it again.\"");
+                            Console.ReadKey();
+                        }
                         output = false;
                         break;
                     case 2:

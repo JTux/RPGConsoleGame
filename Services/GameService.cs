@@ -211,7 +211,6 @@ namespace Services
                 if (n != 0)
                 {
                     exploringServices.Commute();
-                    Console.ReadKey();
                 }
                 return EnterVillage();
             }
@@ -221,7 +220,6 @@ namespace Services
                 if (n != 1)
                 {
                     exploringServices.Commute();
-                    Console.ReadKey();
                 }
                 return EnterCity();
             }
