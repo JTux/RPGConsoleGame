@@ -31,12 +31,15 @@ namespace Services
                         PrintCurrentItems();
                         break;
                     case 2:
-                        ChooseCombatStyle();
+                        PrintCurrentAttacks();
                         break;
                     case 3:
+                        ChooseCombatStyle();
+                        break;
+                    case 4:
                         if (SaveAndQuit()) return true;
                         else break;
-                    case 4:
+                    case 5:
                         exit = true;
                         break;
                     default:
@@ -61,6 +64,22 @@ namespace Services
             foreach (Equipment item in _characterSuperModel.CharacterEquipment.Where(i => i.GearType == currentType))
             {
                 Console.WriteLine(item);
+            }
+            Console.ReadLine();
+        }
+
+        private void PrintCurrentAttacks()
+        {
+            var currentType = AtkType.Melee;
+            if (_characterSuperModel.CombatStyle == StyleType.Melee) currentType = AtkType.Melee;
+            else if (_characterSuperModel.CombatStyle == StyleType.Ranged) currentType = AtkType.Ranged;
+            else if (_characterSuperModel.CombatStyle == StyleType.Mage) currentType = AtkType.Mage;
+
+            GameService.NewPage("\nYou look at your items" +
+                            $"\n{"ID",-2}  {"Name",-20}  {"Type",-6}  {"Lvl",-3}  {"Stun",-5}  {"D.O.T.",-6}  {"Stealth",-5}", "inv");
+            foreach (Attacks attack in _characterSuperModel.CharacterAttacks.Where(i => i.TypeOfAtk == currentType))
+            {
+                Console.WriteLine(attack);
             }
             Console.ReadLine();
         }
@@ -163,10 +182,11 @@ namespace Services
         {
             GameService.NewPage($"\n{GameService.GetCharacterStats(_characterSuperModel)}" +
                 "\n\nWhat would you like to do?" +
-                $"\n1) See {_characterSuperModel.CombatStyle} Items" +
-                "\n2) Choose Combat Style" +
-                "\n3) Save and Quit" +
-                "\n4) Exit Inventory", "inv");
+                $"\n1) See owned {_characterSuperModel.CombatStyle} Items" +
+                $"\n2) See known {_characterSuperModel.CombatStyle} Attacks" +
+                "\n3) Choose Combat Style" +
+                "\n4) Save and Quit" +
+                "\n5) Exit Inventory", "inv");
         }
         private void PrintChestMenu()
         {
