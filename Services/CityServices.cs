@@ -178,7 +178,7 @@ namespace Services
             }
             foreach (Attacks attack in attackList)
             {
-                if (attack.LVToUSE <= character.CharacterLevel && attack.TypeOfAtk == correctType && _characterSuperModel.CharacterAttacks.Where(a => a.ATKID == attack.ATKID) == null)
+                if (attack.LVToUSE <= character.CharacterLevel && attack.TypeOfAtk == correctType && (_characterSuperModel.CharacterAttacks.FirstOrDefault(a => a.ATKID == attack.ATKID) == null))
                 {
                     count++;
                     character.CharacterAttacks.Add(attack);

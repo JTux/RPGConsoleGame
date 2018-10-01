@@ -155,10 +155,11 @@ namespace Services
 
         public CharacterSuperModel LoadSave(int saveID)
         {
-            CharacterSuperModel loadedSuperModel = new CharacterSuperModel();
+            var loadedSuperModel = new CharacterSuperModel();
             CreateDirectories();
             for (int i = 1; i <= SaveGames; i++)
             {
+                loadedSuperModel = new CharacterSuperModel();
                 if (File.Exists($"./Files/Saves/Game{i}.txt"))
                 {
                     string saveGameTraits = File.ReadAllText($"./Files/Saves/Game{i}.txt");
@@ -273,7 +274,7 @@ namespace Services
                     }
                 }
                 else Console.WriteLine("Game files corrupt");
-                if (i == saveID) break;
+                if (i == saveID) return loadedSuperModel;
             }
 
             return loadedSuperModel;
