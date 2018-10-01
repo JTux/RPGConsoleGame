@@ -170,6 +170,7 @@ namespace Services
                 CharacterBaseHealth = 10,
                 CharacterHealth = 10,
                 CharacterMaxHealth = 10,
+                PotionCount = 1,
                 CombatStyle = newCombatStyle,
             };
             characterSuperModel.CharacterAttacks.Add(new Attacks() { ATKID = 1, ATKName = "Pierce", TypeOfAtk = AtkType.Melee, DMG = 3, LVToUSE = 1 });

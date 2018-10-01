@@ -133,8 +133,8 @@ namespace Services
                 exit = true;
 
                 GameService.NewPage($"\nYou approach the {guildName} Guild Master and..." +
-                    $"1) Learn new Attacks" +
-                    $"2) Leave", guildKey);
+                    $"\n1) Learn new Attacks" +
+                    $"\n2) Leave", guildKey);
                 switch (GameService.ParseIntput())
                 {
                     case 1:
@@ -148,7 +148,6 @@ namespace Services
                         break;
                 }
             }
-            Console.ReadKey();
         }
 
         private void LearnAttacks(CharacterSuperModel character, string guildName)
@@ -156,15 +155,35 @@ namespace Services
             var invService = new InventoryServices();
             var attackList = invService.GetAttacks();
             var count = 0;
+            var correctType = AtkType.Melee;
+            switch (guildName)
+            {
+                case "Melee":
+                    correctType = AtkType.Melee;
+                    break;
+                case "Ranged":
+                    correctType = AtkType.Ranged;
+                    break;
+                case "Mage":
+                    correctType = AtkType.Mage;
+                    break;
+            }
             foreach (Attacks attack in attackList)
             {
-                if (attack.LVToUSE >= character.CharacterLevel)
+                if (attack.LVToUSE <= character.CharacterLevel && attack.TypeOfAtk == correctType && _characterSuperModel.CharacterAttacks.Where(a => a.ATKID == attack.ATKID) == null)
                 {
                     count++;
                     character.CharacterAttacks.Add(attack);
                 }
             }
-            Console.WriteLine($"You learned {count} new attack(s)");
+            if (count != 0)
+            {
+                var s = "";
+                if (count != 1) s = "s";
+                Console.WriteLine($"You learned {count} new attack{s}");
+            }
+            else Console.WriteLine($"You are not ready to learn any new attacks yet.");
+            Console.ReadKey();
         }
 
         private void GuildStore()

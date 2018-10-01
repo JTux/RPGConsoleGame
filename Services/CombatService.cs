@@ -57,6 +57,7 @@ namespace Services
 
         private void LookupFightByNPCID(int IDLOOKUP)
         {
+            _NpcList = _nPCS.GetNPCS();
             foreach (NPCS nPCS in _NpcList)
             {
                 if (nPCS.NPCID == IDLOOKUP)
@@ -81,7 +82,7 @@ namespace Services
                     $"{CurrentStatus.CharacterName}\n" +
                     $"Hp: {CurrentStatus.CharacterHealth}/{CurrentStatus.CharacterMaxHealth}\n" +
                     "[1. Attack]\n" +
-                    "[2.Drink Hp Pot]: "+(CurrentStatus.PotionCount) +" Remaining \n" +
+                    "[2. Drink Hp Pot]: "+(CurrentStatus.PotionCount) +" Remaining \n" +
                     "[3. Run]\n"
                     );
                 char response = Console.ReadKey().KeyChar;
@@ -105,6 +106,7 @@ namespace Services
                             else
                             {
                                 Console.WriteLine("You are out of Potions!");
+                                Thread.Sleep(500);
                                 goto Repeat;
                             }
                             break;
@@ -114,7 +116,6 @@ namespace Services
                             Console.WriteLine("You Ran...");
                             Thread.Sleep(1000);
                             goto EndFight;
-                           
                         }
                     default:
                         {
@@ -126,6 +127,9 @@ namespace Services
             if (_characterSuperModel.CharacterHealth > 0)
             {
                 _characterSuperModel.CharacterLevel++;
+                _characterSuperModel.CharacterBaseHealth += 5;
+                _characterSuperModel.CharacterMaxHealth += 5;
+                _characterSuperModel.CharacterHealth = _characterSuperModel.CharacterMaxHealth;
                 _characterSuperModel.Gold += ((enemy.ATK) * 2);
             }
             else { _characterSuperModel.IsDead = true; }
@@ -138,11 +142,12 @@ namespace Services
             if (chance > 15)
             {
                 _characterSuperModel.CharacterHealth -= enemyAtk;
+                Thread.Sleep(1000);
             }
             else
             {
-                Console.WriteLine("You dodge the atk!!!");
-                Thread.Sleep(1500);
+                Console.WriteLine("You dodge the attack!!!");
+                Thread.Sleep(1000);
             }
         }
 
@@ -151,13 +156,13 @@ namespace Services
             int chance = rnd.Next(1, 100);
             if (chance > 30)
             {
-                Console.WriteLine("You hit for " +(yourAtk)+" atk!!!");
+                Console.WriteLine("You hit for " +(yourAtk)+" attack!!!");
                 Thread.Sleep(1500);
                 return yourAtk;
             }
             else if(chance >10 && chance <= 30) 
             {
-                Console.WriteLine("The Enemy dodge the atk!!!");
+                Console.WriteLine("The Enemy dodged the attack!!!");
                 Thread.Sleep(1500);
                 return 0;
             }

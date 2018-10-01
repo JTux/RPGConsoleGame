@@ -113,7 +113,6 @@ namespace Services
             Console.ReadKey();
         }
 
-
         public void AccessChest()
         {
             var exit = false;
@@ -169,7 +168,6 @@ namespace Services
             return confirm;
         }
 
-
         private void PrintStyleMenu()
         {
             GameService.NewPage($"\nYour current Combat Style is set to {_characterSuperModel.CombatStyle}." +
@@ -180,7 +178,10 @@ namespace Services
         }
         private void PrintInvMenu()
         {
+            var s = "";
+            if (_characterSuperModel.PotionCount != 1) s = "s";
             GameService.NewPage($"\n{GameService.GetCharacterStats(_characterSuperModel)}" +
+                $"\nYou have {_characterSuperModel.PotionCount} health potion{s}." +
                 "\n\nWhat would you like to do?" +
                 $"\n1) See owned {_characterSuperModel.CombatStyle} Items" +
                 $"\n2) See known {_characterSuperModel.CombatStyle} Attacks" +

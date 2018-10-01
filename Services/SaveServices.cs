@@ -62,6 +62,7 @@ namespace Services
             characterFile.Write($"CharacterBaseHealth: {superModel.CharacterBaseHealth},");
             characterFile.Write($"CharacterMaxHealth: {superModel.CharacterMaxHealth},");
             characterFile.Write($"CharacterHealth: {superModel.CharacterHealth},");
+            characterFile.Write($"PotionCount: {superModel.PotionCount},");
             characterFile.Write($"CharacterLevel: {superModel.CharacterLevel},");
             characterFile.Write($"CombatStyle: {superModel.CombatStyle},");
 
@@ -197,6 +198,11 @@ namespace Services
                         {
                             var loadLevel = trait.Substring(trait.IndexOf(' ') + 1);
                             loadedSuperModel.CharacterLevel = int.Parse(loadLevel);
+                        }
+                        else if (trait.Contains("PotionCount:"))
+                        {
+                            var loadPotionCount = trait.Substring(trait.IndexOf(' ') + 1);
+                            loadedSuperModel.PotionCount = int.Parse(loadPotionCount);
                         }
                         else if (trait.Contains("CombatStyle:"))
                         {

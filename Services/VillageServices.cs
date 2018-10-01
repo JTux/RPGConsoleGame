@@ -99,7 +99,7 @@ namespace Services
                 switch (GameService.ParseIntput())
                 {
                     case 1:
-                        _exploringServices.Explore();
+                        var isDead = _exploringServices.Explore();
                         Console.ReadKey();
                         output = false;
                         break;
