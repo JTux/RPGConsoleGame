@@ -37,8 +37,8 @@ namespace Services
         public bool Explore()
         {
             var eventChance = GetChance();
-            if (eventChance < 40) NegativeEvent();
-            else if (eventChance < 65) NeutralEvent();
+            if (eventChance < 55) NegativeEvent();
+            else if (eventChance < 75) NeutralEvent();
             else PositiveEvent();
             if (_characterSuperModel.IsDead) return true;
             else return false;
