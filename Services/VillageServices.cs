@@ -71,7 +71,7 @@ namespace Services
                         _inventoryServices.AccessChest();
                         break;
                     case 2:
-                        if ((_characterSuperModel.CharacterBaseHealth += healthFromPlayerBed) > _characterSuperModel.CharacterMaxHealth)
+                        if ((_characterSuperModel.CharacterHealth += healthFromPlayerBed) > _characterSuperModel.CharacterMaxHealth)
                             _characterSuperModel.CharacterHealth = _characterSuperModel.CharacterMaxHealth;
                         else
                             _characterSuperModel.CharacterHealth += healthFromPlayerBed;
@@ -102,7 +102,10 @@ namespace Services
                 {
                     case 1:
                         var isDead = _exploringServices.Explore();
-                        Console.ReadKey();
+                        if (isDead) GameService.NewPage("You slowly open your eyes. \"Wha.. what happened?\"\n" +
+                            "Near your bed you find a note a note. It reads:\n\n" +
+                            "\"Found you beaten and bruised out by the road. What kind of champion are you trying to be? Don't do it again.\"");
+                        else GameService.NewPage("You win! Yay!");
                         output = false;
                         break;
                     case 2:
