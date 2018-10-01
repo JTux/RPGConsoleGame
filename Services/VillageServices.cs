@@ -12,6 +12,7 @@ namespace Services
         private InventoryServices _inventoryServices;
         private ExploringServices _exploringServices;
         private CharacterSuperModel _characterSuperModel;
+        private SaveServices _saveServices = new SaveServices();
 
         public VillageServices(CharacterSuperModel characterSuperModel, ExploringServices exploringServices)
         {
@@ -28,26 +29,23 @@ namespace Services
             while (!leaveVillage)
             {
                 PrintMenuOptions();
+                _saveServices.SaveGame(_characterSuperModel);
                 var input = GameService.ParseIntput();
                 switch (input)
                 {
                     case 1:
-                        //-- Talk to Master
                         GameService.NewPage("You go talk to your master");
                         Console.ReadKey();
                         break;
                     case 2:
-                        //-- Go Home
                         GoHome();
                         break;
                     case 3:
-                        //-- Inventory
                         bool leaveFromInv = _inventoryServices.OpenInventory();
                         if (leaveFromInv) return false;
                         break;
                     case 4:
-                        //-- Leave Village
-                        leaveVillage = LeaveVillage();
+                        leaveVillage = Leave();
                         break;
                     default:
                         Console.WriteLine("Invalid input.");
@@ -68,18 +66,15 @@ namespace Services
                 switch (input)
                 {
                     case 1:
-                        //-- Talk to Master
                         _inventoryServices.AccessChest();
                         break;
                     case 2:
-                        //-- Go Home
                         _characterSuperModel.CharacterHealth += healthFromPlayerBed;
                         GameService.NewPage($"You sleep in your bed and recover {healthFromPlayerBed} HP." +
-                            $"\nYou now have {_characterSuperModel.CharacterHealth} HP.");
+                            $"\nYou now have {_characterSuperModel.CharacterHealth}/{_characterSuperModel.CharacterMaxHealth} HP.");
                         Console.ReadLine();
                         break;
                     case 3:
-                        //-- Leave Village
                         leaveHome = true;
                         break;
                     default:
@@ -90,7 +85,7 @@ namespace Services
             }
         }
 
-        private bool LeaveVillage()
+        private bool Leave()
         {
             var leave = false;
             var output = false;
@@ -123,19 +118,21 @@ namespace Services
 
         private void PrintMenuOptions()
         {
-            GameService.NewPage($"THE VILLAGE" +
-                $"\n1) Visit your Master" +
+            GameService.NewPage($"\nAh. Home sweet home. It's a perfectly boring small village but it's all you've known for most of your life.\nA small collection of huts filled with familiar faces. A few small children are running around playing a game.\nIt sure is good to be home. While you may be forced to travel now this will always be home.\nOne of the children sees you and yells \"Welcome home {_characterSuperModel.CharacterName}!\"" +
+                $"\n\n{GameService.GetCharacterStats(_characterSuperModel)}" +
+                $"\n\nWhat do you do?" +
+                $"\n\n1) Visit your Master" +
                 $"\n2) Go Home" +
                 $"\n3) Open Inventory" +
-                $"\n4) Leave Village");
+                $"\n4) Leave Village", "village");
         }
         private void PrintHomeMenu()
         {
-            GameService.NewPage($"Welcome home!" +
+            GameService.NewPage($"\nWelcome home!" +
                 $"\nWhat would you like to do?" +
                 $"\n1) Access your Chest" +
                 $"\n2) Sleep in your Bed (+{healthFromPlayerBed} HP)" +
-                $"\n3) Leave your Home");
+                $"\n3) Leave your Home", "home");
         }
         private void PrintLeaveMenu()
         {

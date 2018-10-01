@@ -42,6 +42,5 @@ namespace Models
 
             return listOfNPCS;
         }
-
     }
 }
