@@ -199,10 +199,13 @@ namespace Services
                         ShopWeapons();
                         break;
                     case 2:
-                        GameService.NewPage("Sell!", "inv");
+                        GameService.NewPage("No refunds! Go away!", "inv");
                         Console.ReadKey();
                         break;
                     case 3:
+                        BuyPotion();
+                        break;
+                    case 4:
                         leaveStore = true;
                         break;
                     default:
@@ -211,6 +214,18 @@ namespace Services
                         break;
                 }
             }
+        }
+
+        private void BuyPotion()
+        {
+            if(_characterSuperModel.Gold >= 10)
+            {
+                _characterSuperModel.Gold -= 10;
+                _characterSuperModel.PotionCount++;
+                Console.WriteLine("Potion added!");
+            }
+            else Console.WriteLine("You don't have enough money!");
+            Console.ReadKey();
         }
 
         private void ShopWeapons()
@@ -366,7 +381,8 @@ namespace Services
             GameService.NewPage($"\nWhat would you like to do?" +
                 $"\n1) Buy Items" +
                 $"\n2) Sell Items" +
-                $"\n3) Leave Shop", "shop");
+                $"\n3) Buy Health Potion" +
+                $"\n4) Leave Shop", "shop");
         }
         private void PrintShopCategory()
         {
