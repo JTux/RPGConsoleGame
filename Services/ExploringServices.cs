@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,10 +11,18 @@ namespace Services
     public class ExploringServices
     {
         private Random _rand;
+        private CharacterSuperModel _characterSuperModel;
+        private CombatService _combatService;
 
         public ExploringServices(Random rand)
         {
             _rand = rand;
+        }
+        public ExploringServices(Random rand, CharacterSuperModel characterSuperModel)
+        {
+            _rand = rand;
+            _characterSuperModel = characterSuperModel;
+            _combatService = new CombatService(_characterSuperModel);
         }
 
         public void Commute()
@@ -35,31 +44,37 @@ namespace Services
         private void NegativeEvent()
         {
             GameService.NewPage("Bad Event");
+            _combatService.EncounterFight(_characterSuperModel);
         }
 
         private void NeutralEvent()
         {
             GameService.NewPage("Neutral Event");
+            _combatService.EncounterFight(_characterSuperModel);
         }
 
         private void PositiveEvent()
         {
             GameService.NewPage("Good Event");
+            _combatService.EncounterFight(_characterSuperModel);
         }
 
         private void NegativeCommute()
         {
             GameService.NewPage("Bad Commute");
+            _combatService.EncounterFight(_characterSuperModel);
         }
 
         private void NeutralCommute()
         {
             GameService.NewPage("Neutral Commute");
+            _combatService.EncounterFight(_characterSuperModel);
         }
 
         private void PositiveCommute()
         {
             GameService.NewPage("Good Commute");
+            _combatService.EncounterFight(_characterSuperModel);
         }
 
         private int GetChance()

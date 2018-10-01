@@ -194,6 +194,7 @@ namespace Services
             var counter = 0;
             if (character.CurrentLocation == "city") counter = 1;
             var keepPlaying = true;
+            exploringServices = new ExploringServices(rand, characterSuperModel);
             while (keepPlaying)
             {
                 keepPlaying = SetLocation(counter);

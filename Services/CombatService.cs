@@ -10,7 +10,7 @@ namespace Services
     public class CombatService
     {
         private CharacterSuperModel _characterSuperModel;
-        private NPCS _nPCS;
+        private NPCS _nPCS = new NPCS();
         private Equipment _equipment;
         private Attacks _attacks;
         private List<NPCS> _NpcList;
@@ -18,6 +18,13 @@ namespace Services
         private List<Attacks> _AttackList;
         private NPCS currentFlight;
         private Random rnd = new Random();
+
+        public CombatService(CharacterSuperModel character)
+        {
+            _EquipmentList = character.CharacterEquipment;
+            _AttackList = character.CharacterAttacks;
+            _NpcList = _nPCS.GetNPCS();
+        }
 
         public CharacterSuperModel EncounterFight(CharacterSuperModel characterSuperModel)
         {
