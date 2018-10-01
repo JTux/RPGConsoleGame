@@ -80,16 +80,13 @@ namespace Services
                         GuildStore();
                         break;
                     case 2:
-                        GameService.NewPage("Master Swordsman", "meleeGuild");
-                        Console.ReadKey();
+                        VisitGuildMaster("melee");
                         break;
                     case 3:
-                        GameService.NewPage("Master Archer", "archerGuild");
-                        Console.ReadKey();
+                        VisitGuildMaster("ranged");
                         break;
                     case 4:
-                        GameService.NewPage("Master Mage", "mageGuild");
-                        Console.ReadKey();
+                        VisitGuildMaster("mage");
                         break;
                     case 5:
                         leaveGuild = true;
@@ -100,6 +97,26 @@ namespace Services
                         break;
                 }
             }
+        }
+
+        private void VisitGuildMaster(string type)
+        {
+            var guildName = "";
+            switch (type)
+            {
+                case "melee":
+                    guildName = "meleeGuild";
+                    break;
+                case "ranged":
+                    guildName = "archerGuild";
+                    break;
+                case "mage":
+                    guildName = "mageGuild";
+                    break;
+            }
+
+            GameService.NewPage("", guildName);
+            Console.ReadKey();
         }
 
         private void GuildStore()
