@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,10 +11,18 @@ namespace Services
     public class ExploringServices
     {
         private Random _rand;
+        private CharacterSuperModel _characterSuperModel;
+        private CombatService _combatService;
 
         public ExploringServices(Random rand)
         {
             _rand = rand;
+        }
+        public ExploringServices(Random rand, CharacterSuperModel characterSuperModel)
+        {
+            _rand = rand;
+            _characterSuperModel = characterSuperModel;
+            _combatService = new CombatService(_characterSuperModel);
         }
 
         public void Commute()
@@ -35,31 +44,37 @@ namespace Services
         private void NegativeEvent()
         {
             GameService.NewPage("Bad Event");
+            _combatService.EncounterFight(_characterSuperModel);
         }
 
         private void NeutralEvent()
         {
-            GameService.NewPage("Neutral Event");
+            GameService.NewPage("You found nothing and decided to head back.");
         }
 
         private void PositiveEvent()
         {
-            GameService.NewPage("Good Event");
+            var newRand = _rand.Next(8);
+            GameService.NewPage($"While exploring you found {newRand} Gold!");
+            _characterSuperModel.Gold += newRand;
         }
 
         private void NegativeCommute()
         {
             GameService.NewPage("Bad Commute");
+            _combatService.EncounterFight(_characterSuperModel);
         }
 
         private void NeutralCommute()
         {
-            GameService.NewPage("Neutral Commute");
+            GameService.NewPage("Your commute went entirely uninterrupted.");
         }
 
         private void PositiveCommute()
         {
-            GameService.NewPage("Good Commute");
+            var newRand = _rand.Next(5);
+            GameService.NewPage($"While exploring you found {newRand} Gold!");
+            _characterSuperModel.Gold += newRand;
         }
 
         private int GetChance()

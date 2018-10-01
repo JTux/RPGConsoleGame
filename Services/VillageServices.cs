@@ -69,7 +69,10 @@ namespace Services
                         _inventoryServices.AccessChest();
                         break;
                     case 2:
-                        _characterSuperModel.CharacterHealth += healthFromPlayerBed;
+                        if ((_characterSuperModel.CharacterBaseHealth += healthFromPlayerBed) > _characterSuperModel.CharacterMaxHealth)
+                            _characterSuperModel.CharacterHealth = _characterSuperModel.CharacterMaxHealth;
+                        else
+                            _characterSuperModel.CharacterHealth += healthFromPlayerBed;
                         GameService.NewPage($"You sleep in your bed and recover {healthFromPlayerBed} HP." +
                             $"\nYou now have {_characterSuperModel.CharacterHealth}/{_characterSuperModel.CharacterMaxHealth} HP.");
                         Console.ReadLine();
