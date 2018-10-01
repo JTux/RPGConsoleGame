@@ -46,6 +46,7 @@
     <Compile Include="GameService.cs" />
     <Compile Include="CombatService.cs" />
     <Compile Include="InventoryServices.cs" />
+    <Compile Include="Prefight.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SaveServices.cs" />
     <Compile Include="VillageServices.cs" />

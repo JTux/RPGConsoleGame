@@ -20,7 +20,7 @@ namespace Models
         public bool Stealth { get; set; }
 
         public override string ToString()
-        {
+        {            
             return $"{ATKID,2}) {ATKName,-20}  {TypeOfAtk,-6}  {LVToUSE,-3}  {Stun,-5}  {DamageOverTime,-6}  {Stealth,-5}";
         }
     }
