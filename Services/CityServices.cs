@@ -12,14 +12,15 @@ namespace Services
         private InventoryServices _inventoryServices;
         private ExploringServices _exploringServices;
         private CharacterSuperModel _characterSuperModel;
-        private List<Equipment> _equipmentList;
+        private List<Equipment> _shopEquipmentList;
+        private SaveServices _saveServices = new SaveServices();
 
         public CityServices(CharacterSuperModel characterSuperModel, ExploringServices exploringServices)
         {
             _characterSuperModel = characterSuperModel;
             _exploringServices = exploringServices;
             _inventoryServices = new InventoryServices(_characterSuperModel);
-            _equipmentList = _inventoryServices.GetEquipment();
+            _shopEquipmentList = _inventoryServices.GetEquipment();
         }
 
         private int healthFromInnBed = 8;
@@ -30,6 +31,7 @@ namespace Services
             while (!leaveCity)
             {
                 PrintMenuOptions();
+                _saveServices.SaveGame(_characterSuperModel);
                 var input = GameService.ParseIntput();
                 switch (input)
                 {
@@ -71,17 +73,18 @@ namespace Services
             while (!leaveGuild)
             {
                 PrintGuildMenu();
+                _saveServices.SaveGame(_characterSuperModel);
                 switch (GameService.ParseIntput())
                 {
                     case 1:
                         GuildStore();
                         break;
                     case 2:
-                        GameService.NewPage("Master Swordsman", "archerGuild");
+                        GameService.NewPage("Master Swordsman", "meleeGuild");
                         Console.ReadKey();
                         break;
                     case 3:
-                        GameService.NewPage("Master Archer", "meleeGuild");
+                        GameService.NewPage("Master Archer", "archerGuild");
                         Console.ReadKey();
                         break;
                     case 4:
@@ -105,6 +108,7 @@ namespace Services
             while (!leaveStore)
             {
                 PrintStoreMenu();
+                _saveServices.SaveGame(_characterSuperModel);
                 switch (GameService.ParseIntput())
                 {
                     case 1:
@@ -135,11 +139,8 @@ namespace Services
                 while (!chosenCategory)
                 {
                     chosenCategory = true;
-                    GameService.NewPage("\nWhich combat style would you like to browse?" +
-                        "\n1) Melee" +
-                        "\n2) Ranged" +
-                        "\n3) Magic" +
-                        "\n4) Return to Shop", "shop");
+                    PrintShopCategory();
+                    _saveServices.SaveGame(_characterSuperModel);
                     switch (GameService.ParseIntput())
                     {
                         case 1:
@@ -163,10 +164,29 @@ namespace Services
                 }
                 if (exit == true) break;
 
-                GameService.NewPage("\nWhich item would you like to buy?", cat);
-                PrintShopItems(cat);
+                var canBuyItems = GetShopItems(cat);
+                BuyWeapon(canBuyItems, cat);
+            }
+        }
+
+        private void BuyWeapon(List<Equipment> shoppingList, string key)
+        {
+            var shopping = true;
+            while (shopping)
+            {
+                PrintShopItems(shoppingList, key);
+                var response = GameService.ParseIntput();
+                var existingItem = shoppingList.FirstOrDefault(i => i.GearID == response);
+                if (existingItem != null)
+                {
+                    _characterSuperModel.CharacterEquipment.Add(existingItem);
+                    break;
+                }
+                Console.WriteLine("Invalid input");
                 Console.ReadKey();
             }
+            Console.WriteLine("Item bought!");
+            Console.ReadKey();
         }
 
         private bool Leave()
@@ -200,25 +220,41 @@ namespace Services
             return output;
         }
 
-        private void PrintShopItems(string cat)
+        private List<Equipment> GetShopItems(string cat)
         {
-            foreach (Equipment item in _equipmentList)
+            List<Equipment> canBuy = new List<Equipment>();
+            foreach (Equipment item in _shopEquipmentList)
             {
-                switch (cat)
+                var existingItem = _characterSuperModel.CharacterEquipment.FirstOrDefault(i => i.GearID == item.GearID);
+                if (existingItem == null)
                 {
-                    case "melee":
-                        if (item.GearType == GearType.Melee)
-                            Console.WriteLine(item);
-                        break;
-                    case "ranged":
-                        if (item.GearType == GearType.Ranged)
-                            Console.WriteLine(item);
-                        break;
-                    case "magic":
-                        if (item.GearType == GearType.Mage)
-                            Console.WriteLine(item);
-                        break;
+                    switch (cat)
+                    {
+                        case "melee":
+                            if (item.GearType == GearType.Melee)
+                                canBuy.Add(item);
+                            break;
+                        case "ranged":
+                            if (item.GearType == GearType.Ranged)
+                                canBuy.Add(item);
+                            break;
+                        case "magic":
+                            if (item.GearType == GearType.Mage)
+                                canBuy.Add(item);
+                            break;
+                    }
                 }
+            }
+            return canBuy;
+        }
+
+        private void PrintShopItems(List<Equipment> itemList, string key)
+        {
+            GameService.NewPage($"\nWhich item would you like to buy?" +
+                $"\n{"ID",-2}  {"Name",-18}  {"Type",-6}  {"Lvl",-4}  {"ATK+",-4}  {"HP+",-4}", key);
+            foreach (Equipment item in itemList)
+            {
+                Console.WriteLine(item);
             }
         }
 
@@ -247,6 +283,14 @@ namespace Services
                 $"\n1) Buy Items" +
                 $"\n2) Sell Items" +
                 $"\n3) Leave Shop", "shop");
+        }
+        private void PrintShopCategory()
+        {
+            GameService.NewPage("\nWhich combat style would you like to browse?" +
+                        "\n1) Melee" +
+                        "\n2) Ranged" +
+                        "\n3) Magic" +
+                        "\n4) Return to Shop", "shop");
         }
         private void PrintLeaveMenu()
         {

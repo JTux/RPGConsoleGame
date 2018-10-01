@@ -12,6 +12,7 @@ namespace Services
         private InventoryServices _inventoryServices;
         private ExploringServices _exploringServices;
         private CharacterSuperModel _characterSuperModel;
+        private SaveServices _saveServices = new SaveServices();
 
         public VillageServices(CharacterSuperModel characterSuperModel, ExploringServices exploringServices)
         {
@@ -28,25 +29,22 @@ namespace Services
             while (!leaveVillage)
             {
                 PrintMenuOptions();
+                _saveServices.SaveGame(_characterSuperModel);
                 var input = GameService.ParseIntput();
                 switch (input)
                 {
                     case 1:
-                        //-- Talk to Master
                         GameService.NewPage("You go talk to your master");
                         Console.ReadKey();
                         break;
                     case 2:
-                        //-- Go Home
                         GoHome();
                         break;
                     case 3:
-                        //-- Inventory
                         bool leaveFromInv = _inventoryServices.OpenInventory();
                         if (leaveFromInv) return false;
                         break;
                     case 4:
-                        //-- Leave Village
                         leaveVillage = Leave();
                         break;
                     default:
@@ -68,18 +66,15 @@ namespace Services
                 switch (input)
                 {
                     case 1:
-                        //-- Talk to Master
                         _inventoryServices.AccessChest();
                         break;
                     case 2:
-                        //-- Go Home
                         _characterSuperModel.CharacterHealth += healthFromPlayerBed;
                         GameService.NewPage($"You sleep in your bed and recover {healthFromPlayerBed} HP." +
                             $"\nYou now have {_characterSuperModel.CharacterHealth}/{_characterSuperModel.CharacterMaxHealth} HP.");
                         Console.ReadLine();
                         break;
                     case 3:
-                        //-- Leave Village
                         leaveHome = true;
                         break;
                     default:
