@@ -184,7 +184,7 @@ namespace Services
 
         private void FirstTimeStart(string playerName)
         {
-            NewPage(dialogue.StartText(playerName));
+            NewPage(dialogue.StartText(playerName),"filler");
             Console.WriteLine("\nPress any button to begin your journey...");
             Console.ReadKey();
         }
@@ -297,9 +297,9 @@ namespace Services
         }
         private void PrintFirstStylePicker()
         {
-            Console.WriteLine($"Welcome. In this game there are three different combat styles which include different attacks and weapons." +
+            Console.WriteLine($"\nWelcome. In this game there are three different combat styles which include different attacks and weapons." +
                 "\nWhile one style can be utilized at any given time, you can change this at any time in your inventory." +
-                "\nWhich combat style would you like to start with?" +
+                "\n\nWhich combat style would you like to start with?" +
                 "\n1) Melee" +
                 "\n2) Ranged" +
                 "\n3) Mage");

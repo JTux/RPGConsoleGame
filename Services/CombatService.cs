@@ -99,10 +99,18 @@ namespace Services
                             if (CurrentStatus.PotionCount > 0)
                             {
                                 CurrentStatus.PotionCount--;
-                                if ((CurrentStatus.CharacterHealth + 10) <= CurrentStatus.CharacterMaxHealth)
-                                    CurrentStatus.CharacterHealth += 10;
-                                else CurrentStatus.CharacterHealth = CurrentStatus.CharacterMaxHealth;
-                                Console.WriteLine("You Feel Better.");
+                                if (CurrentStatus.CharacterHealth != CurrentStatus.CharacterMaxHealth)
+                                {
+                                    if ((CurrentStatus.CharacterHealth + 10) <= CurrentStatus.CharacterMaxHealth)
+                                        CurrentStatus.CharacterHealth += 10;
+                                    else CurrentStatus.CharacterHealth = CurrentStatus.CharacterMaxHealth;
+                                    Console.WriteLine("You Feel Better.");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("You're already at max health.");
+                                    goto Repeat;
+                                }
                                 Thread.Sleep(1000);
                             }
                             else

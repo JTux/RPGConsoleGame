@@ -50,31 +50,30 @@ namespace Services
 
         private void NeutralEvent()
         {
-            GameService.NewPage("You found nothing and decided to head back.");
+            GameService.NewPage("\nYou found nothing and decided to head back.", "filler");
         }
 
         private void PositiveEvent()
         {
             var newRand = _rand.Next(1, 4);
-            GameService.NewPage($"While exploring you found {newRand} Gold!");
+            GameService.NewPage($"\nWhile exploring you found {newRand} Gold!","event");
             _characterSuperModel.Gold += newRand;
         }
 
         private void NegativeCommute()
         {
             _combatService.EncounterFight(_characterSuperModel);
-            if (_characterSuperModel.IsDead) Console.WriteLine("oops");
         }
 
         private void NeutralCommute()
         {
-            GameService.NewPage("Your commute went entirely uninterrupted.");
+            GameService.NewPage("\nYour commute went entirely uninterrupted.", "filler");
         }
 
         private void PositiveCommute()
         {
             var newRand = _rand.Next(1, 2);
-            GameService.NewPage($"While exploring you found {newRand} Gold!");
+            GameService.NewPage($"\nWhile on your way you found {newRand} Gold!", "event");
             _characterSuperModel.Gold += newRand;
         }
 

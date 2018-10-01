@@ -34,7 +34,9 @@ namespace Services
                 switch (input)
                 {
                     case 1:
-                        GameService.NewPage("You go talk to your master");
+                        GameService.NewPage("\nYou go knock on the elder's door to recieve instruction. After a minute or so of waiting you realize no one is home." +
+                            "\nOff in the distance you hear someone muttering something about maybe not waiting until the weekend next time and actually\n" +
+                            "implementing features they advertise. Then again, maybe you're hearing things. It's okay though, you don't need handholding.","elder");
                         Console.ReadKey();
                         break;
                     case 2:
