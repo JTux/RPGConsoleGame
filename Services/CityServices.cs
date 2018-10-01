@@ -41,9 +41,7 @@ namespace Services
                         GuildMenu();
                         break;
                     case 2:
-                        GameService.NewPage("You enter the arena", "arena");
-                        _combatService.ArenaFight(_characterSuperModel);
-                        Console.ReadKey();
+                        EnterArena();
                         break;
                     case 3:
                         if ((_characterSuperModel.CharacterBaseHealth += healthFromInnBed) > _characterSuperModel.CharacterMaxHealth)
@@ -68,6 +66,17 @@ namespace Services
                 }
             }
             return leaveCity;
+        }
+
+        private void EnterArena()
+        {
+            GameService.NewPage("You enter the arena", "arena");
+            _combatService.ArenaFight(_characterSuperModel);
+            if (_characterSuperModel.IsDead)
+            {
+                Console.WriteLine("YOU DIED");
+                Console.ReadKey();
+            }
         }
 
         private void GuildMenu()
