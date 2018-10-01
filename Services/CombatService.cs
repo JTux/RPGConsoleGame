@@ -111,12 +111,12 @@ namespace Services
                                     Console.WriteLine("You're already at max health.");
                                     goto Repeat;
                                 }
-                                Thread.Sleep(1000);
+                                Console.ReadLine();
                             }
                             else
                             {
                                 Console.WriteLine("You are out of Potions!");
-                                Thread.Sleep(500);
+                                Console.ReadLine();
                                 goto Repeat;
                             }
                             break;
@@ -124,7 +124,7 @@ namespace Services
                     case '3':
                         {
                             Console.WriteLine("You Ran...");
-                            Thread.Sleep(1000);
+                            Console.ReadLine();
                             goto EndFight;
                         }
                     default:
@@ -143,7 +143,7 @@ namespace Services
                 _characterSuperModel.Gold += ((enemy.ATK) * 2);
             }
             else { _characterSuperModel.IsDead = true; }
-        EndFight:;
+            EndFight:;
         }
 
         private void EnemyAtk(int enemyAtk)
@@ -151,13 +151,14 @@ namespace Services
             int chance = rnd.Next(1, 100);
             if (chance > 15)
             {
+                Console.WriteLine("You are hit for "+(enemyAtk)+"!!!");
                 _characterSuperModel.CharacterHealth -= enemyAtk;
-                Thread.Sleep(1000);
+                Console.ReadLine();
             }
             else
             {
                 Console.WriteLine("You dodge the attack!!!");
-                Thread.Sleep(1000);
+                Console.ReadLine();
             }
         }
 
@@ -167,19 +168,19 @@ namespace Services
             if (chance > 30)
             {
                 Console.WriteLine("You hit for " + (yourAtk) + " attack!!!");
-                Thread.Sleep(1500);
+                Console.ReadLine();
                 return yourAtk;
             }
             else if (chance > 10 && chance <= 30)
             {
                 Console.WriteLine("The Enemy dodged the attack!!!");
-                Thread.Sleep(1500);
+                Console.ReadLine();
                 return 0;
             }
             else
             {
                 Console.WriteLine("You Crit for " + (yourAtk * 2) + "Damage");
-                Thread.Sleep(1500);
+                Console.ReadLine();
                 return (yourAtk * 2);
             }
         }
