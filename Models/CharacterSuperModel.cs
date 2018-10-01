@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace Models
 {
+    public enum StyleType { Melee = 1, Ranged, Mage }
+
     public class CharacterSuperModel
     {
         public int CharacterID { get; set; }
@@ -15,5 +17,11 @@ namespace Models
         public int CharacterMaxHealth { get; set; }
         public int CharacterHealth { get; set; }
         public int CharacterLevel { get; set; }
+        public StyleType CombatStyle { get; set; }
+        public List<Equipment> CharacterEquipment { get; set; }
+        public CharacterSuperModel()
+        {
+            CharacterEquipment = new List<Equipment>();
+        }
     }
 }

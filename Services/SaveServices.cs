@@ -63,6 +63,15 @@ namespace Services
             characterFile.Write($"CharacterMaxHealth: {superModel.CharacterMaxHealth},");
             characterFile.Write($"CharacterHealth: {superModel.CharacterHealth},");
             characterFile.Write($"CharacterLevel: {superModel.CharacterLevel},");
+            characterFile.Write($"CombatStyle: {superModel.CombatStyle},");
+
+            var itemIDList = "";
+            superModel.CharacterEquipment = superModel.CharacterEquipment.OrderBy(i => i.GearID).ToList();
+            foreach (Equipment item in superModel.CharacterEquipment)
+            {
+                itemIDList += $"{item.GearID};";
+            }
+            characterFile.Write($"CharacterItems: {itemIDList},");
 
             characterFile.Close();
             UpdateSettings();
@@ -101,8 +110,27 @@ namespace Services
                             var loadCharacterLocation = trait.Substring(trait.IndexOf(' ') + 1);
                             loadedSuperModel.CurrentLocation = loadCharacterLocation;
                         }
+                        else if (trait.Contains("CombatStyle:"))
+                        {
+                            var loadCombatStyle = trait.Substring(trait.IndexOf(' ') + 1);
+                            switch (loadCombatStyle.ToLower())
+                            {
+                                case "melee":
+                                    loadedSuperModel.CombatStyle = StyleType.Melee;
+                                    break;
+                                case "ranged":
+                                    loadedSuperModel.CombatStyle = StyleType.Ranged;
+                                    break;
+                                case "mage":
+                                    loadedSuperModel.CombatStyle = StyleType.Mage;
+                                    break;
+                                default:
+                                    loadedSuperModel.CombatStyle = StyleType.Melee;
+                                    break;
+                            }
+                        }
                     }
-                    Console.WriteLine($"{loadedSuperModel.CharacterID}) {loadedSuperModel.CharacterName}, a level {loadedSuperModel.CharacterLevel} currently in the {loadedSuperModel.CurrentLocation}.");
+                    Console.WriteLine($"{loadedSuperModel.CharacterID}) {loadedSuperModel.CharacterName}, a level {loadedSuperModel.CharacterLevel} practicing {loadedSuperModel.CombatStyle} currently in the {loadedSuperModel.CurrentLocation}.");
                 }
                 else
                 {
@@ -161,6 +189,42 @@ namespace Services
                         {
                             var loadLevel = trait.Substring(trait.IndexOf(' ') + 1);
                             loadedSuperModel.CharacterLevel = int.Parse(loadLevel);
+                        }
+                        else if (trait.Contains("CombatStyle:"))
+                        {
+                            var loadCombatStyle = trait.Substring(trait.IndexOf(' ') + 1);
+                            switch (loadCombatStyle.ToLower())
+                            {
+                                case "melee":
+                                    loadedSuperModel.CombatStyle = StyleType.Melee;
+                                    break;
+                                case "ranged":
+                                    loadedSuperModel.CombatStyle = StyleType.Ranged;
+                                    break;
+                                case "mage":
+                                    loadedSuperModel.CombatStyle = StyleType.Mage;
+                                    break;
+                                default:
+                                    loadedSuperModel.CombatStyle = StyleType.Melee;
+                                    break;
+                            }
+                        }
+                        else if (trait.Contains("CharacterItems:"))
+                        {
+                            var invService = new InventoryServices();
+                            var getItems = invService.GetEquipment();
+
+                            var loadItemString = trait.Substring(trait.IndexOf(' ') + 1);
+                            string[] loadedItemIDs = loadItemString.Split(';');
+
+                            foreach (string itemID in loadedItemIDs)
+                            {
+                                if (itemID != "")
+                                {
+                                    var newItem = getItems.FirstOrDefault(l => l.GearID == int.Parse(itemID));
+                                    loadedSuperModel.CharacterEquipment.Add(newItem);
+                                }
+                            }
                         }
                     }
                 }

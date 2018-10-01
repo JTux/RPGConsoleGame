@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-
-    public enum GearType { Melee =1, Ranged, Mage }
+    public enum GearType { Melee = 1, Ranged, Mage }
 
     public class Equipment
     {
@@ -20,7 +19,7 @@ namespace Models
 
         public override string ToString()
         {
-            return $"{GearID}) {GearName} {GearType} {LvToUse} {BonusATK} {BonusHP}";
+            return $"{GearID,2}) {GearName,-18}  {GearType,-6}  {LvToUse,-4}  {BonusATK, -4}  {BonusHP,-4}";
         }
     }
 }
