@@ -42,6 +42,14 @@ namespace Services
                         break;
                     case 2:
                         EnterArena();
+                        if (_characterSuperModel.IsDead)
+                        {
+                            GameService.NewPage("You slowly open your eyes. \"Wha.. what happened?\"\n" +
+                            "Near your bed you find a note a note. It reads:\n\n" +
+                            "\"You got smashed bud. Maybe you should train a bit more before you enter the arena again.\"");
+                            _characterSuperModel.CharacterHealth = _characterSuperModel.CharacterMaxHealth;
+                            Console.ReadKey();
+                        }
                         break;
                     case 3:
                         if ((_characterSuperModel.CharacterBaseHealth += healthFromInnBed) > _characterSuperModel.CharacterMaxHealth)

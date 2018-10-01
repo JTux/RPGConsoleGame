@@ -66,6 +66,7 @@ namespace Services
             characterFile.Write($"Gold: {superModel.Gold},");
             characterFile.Write($"CharacterLevel: {superModel.CharacterLevel},");
             characterFile.Write($"CombatStyle: {superModel.CombatStyle},");
+            characterFile.Write($"IsDead: {superModel.IsDead},");
 
             var itemIDList = "";
             superModel.CharacterEquipment = superModel.CharacterEquipment.OrderBy(i => i.GearID).ToList();
@@ -169,6 +170,12 @@ namespace Services
                         {
                             var loadID = trait.Substring(trait.IndexOf(' ') + 1);
                             loadedSuperModel.CharacterID = int.Parse(loadID);
+                        }
+                        else if (trait.Contains("IsDead:"))
+                        {
+                            var loadIsDead = trait.Substring(trait.IndexOf(' ') + 1);
+                            if (loadIsDead == "False") loadedSuperModel.IsDead = false;
+                            else if (loadIsDead == "True") loadedSuperModel.IsDead = true;
                         }
                         else if (trait.Contains("CharacterName:"))
                         {
