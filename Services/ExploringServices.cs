@@ -40,7 +40,8 @@ namespace Services
             if (eventChance < 40) NegativeEvent();
             else if (eventChance < 65) NeutralEvent();
             else PositiveEvent();
-            return true;
+            if (_characterSuperModel.IsDead) return true;
+            else return false;
         }
 
         private void NegativeEvent()
@@ -56,7 +57,7 @@ namespace Services
         private void PositiveEvent()
         {
             var newRand = _rand.Next(1, 4);
-            GameService.NewPage($"\nWhile exploring you found {newRand} Gold!","event");
+            GameService.NewPage($"\nWhile exploring you found {newRand} Gold!", "event");
             _characterSuperModel.Gold += newRand;
         }
 
