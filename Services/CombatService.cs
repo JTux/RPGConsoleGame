@@ -76,15 +76,14 @@ namespace Services
             while (CurrentStatus.CharacterHealth > 0 && EnemyCurrentStatus.HP > 0)
             {
             Repeat:
-                Console.Clear();
-                Console.WriteLine($"{EnemyCurrentStatus.NPCName}\n" +
+                GameService.NewPage($"\n{EnemyCurrentStatus.NPCName}\n" +
                     $"Hp:{EnemyCurrentStatus.HP}/{enemy.HP}\n\n\n\n\n" +
                     $"{CurrentStatus.CharacterName}\n" +
                     $"Hp: {CurrentStatus.CharacterHealth}/{CurrentStatus.CharacterMaxHealth}\n" +
                     "[1. Attack]\n" +
                     "[2. Drink Hp Pot]: " + (CurrentStatus.PotionCount) + " Remaining \n" +
                     "[3. Run]\n"
-                    );
+                    ,"battle");
                 char response = Console.ReadKey().KeyChar;
 
                 switch (response)
