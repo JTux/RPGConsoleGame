@@ -19,6 +19,7 @@ namespace Models
         public int CharacterLevel { get; set; }
         public StyleType CombatStyle { get; set; }
         public List<Equipment> CharacterEquipment { get; set; }
+        public List<Attacks> CharacterAttacks { get; set; }
         public CharacterSuperModel()
         {
             CharacterEquipment = new List<Equipment>();
