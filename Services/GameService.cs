@@ -172,6 +172,10 @@ namespace Services
                 CharacterMaxHealth = 10,
                 CombatStyle = newCombatStyle,
             };
+            characterSuperModel.CharacterAttacks.Add(new Attacks() { ATKID = 1, ATKName = "Pierce", TypeOfAtk = AtkType.Melee, DMG = 3, LVToUSE = 1 });
+            characterSuperModel.CharacterAttacks.Add(new Attacks() { ATKID = 11, ATKName = "Volley", TypeOfAtk = AtkType.Ranged, DMG = 3, LVToUSE = 1 });
+            characterSuperModel.CharacterAttacks.Add(new Attacks() { ATKID = 21, ATKName = "Mystic Shot", TypeOfAtk = AtkType.Mage, DMG = 3, LVToUSE = 1 });
+
             FirstTimeStart(newName);
             saveServices.SaveGame(characterSuperModel);
             Play(characterSuperModel);
@@ -298,7 +302,6 @@ namespace Services
                 "\n2) Ranged" +
                 "\n3) Mage");
         }
-
 
         public static string GetCharacterStats(CharacterSuperModel currentCharacter)
         {

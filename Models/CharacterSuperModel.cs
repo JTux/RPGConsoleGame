@@ -23,6 +23,7 @@ namespace Models
         public CharacterSuperModel()
         {
             CharacterEquipment = new List<Equipment>();
+            CharacterAttacks = new List<Attacks>();
         }
     }
 }

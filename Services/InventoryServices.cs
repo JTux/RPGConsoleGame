@@ -253,7 +253,6 @@ namespace Services
             listOfATKS.Add(new Attacks() { ATKID = 27, ATKName = "Contaminate", TypeOfAtk = AtkType.Mage, DMG = 9, LVToUSE = 30, DamageOverTime = true });
             listOfATKS.Add(new Attacks() { ATKID = 28, ATKName = "Ethereal Chains", TypeOfAtk = AtkType.Mage, DMG = 10, LVToUSE = 35, Stun = true });
 
-
             return listOfATKS;
         }
     }
