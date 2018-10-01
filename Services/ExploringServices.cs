@@ -25,25 +25,26 @@ namespace Services
             _combatService = new CombatService(_characterSuperModel);
         }
 
-        public void Commute()
+        public bool Commute()
         {
             var eventChance = GetChance();
             if (eventChance < 30) NegativeCommute();
             else if (eventChance < 85) NeutralCommute();
             else PositiveCommute();
+            return true;
         }
 
-        public void Explore()
+        public bool Explore()
         {
             var eventChance = GetChance();
             if (eventChance < 40) NegativeEvent();
             else if (eventChance < 65) NeutralEvent();
             else PositiveEvent();
+            return true;
         }
 
         private void NegativeEvent()
         {
-            GameService.NewPage("Bad Event");
             _combatService.EncounterFight(_characterSuperModel);
         }
 
@@ -54,15 +55,15 @@ namespace Services
 
         private void PositiveEvent()
         {
-            var newRand = _rand.Next(8);
+            var newRand = _rand.Next(1, 4);
             GameService.NewPage($"While exploring you found {newRand} Gold!");
             _characterSuperModel.Gold += newRand;
         }
 
         private void NegativeCommute()
         {
-            GameService.NewPage("Bad Commute");
             _combatService.EncounterFight(_characterSuperModel);
+            if (_characterSuperModel.IsDead) Console.WriteLine("oops");
         }
 
         private void NeutralCommute()
@@ -72,7 +73,7 @@ namespace Services
 
         private void PositiveCommute()
         {
-            var newRand = _rand.Next(5);
+            var newRand = _rand.Next(1, 2);
             GameService.NewPage($"While exploring you found {newRand} Gold!");
             _characterSuperModel.Gold += newRand;
         }

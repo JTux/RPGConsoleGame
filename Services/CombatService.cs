@@ -127,6 +127,7 @@ namespace Services
             if (_characterSuperModel.CharacterHealth > 0)
             {
                 _characterSuperModel.CharacterLevel++;
+                _characterSuperModel.CharacterBaseHealth += 5;
                 _characterSuperModel.CharacterMaxHealth += 5;
                 _characterSuperModel.CharacterHealth = _characterSuperModel.CharacterMaxHealth;
                 _characterSuperModel.Gold += ((enemy.ATK) * 2);

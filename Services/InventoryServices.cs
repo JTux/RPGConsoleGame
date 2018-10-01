@@ -178,8 +178,10 @@ namespace Services
         }
         private void PrintInvMenu()
         {
+            var s = "";
+            if (_characterSuperModel.PotionCount != 1) s = "s";
             GameService.NewPage($"\n{GameService.GetCharacterStats(_characterSuperModel)}" +
-                $"\n You have {_characterSuperModel.PotionCount} health potions." +
+                $"\nYou have {_characterSuperModel.PotionCount} health potion{s}." +
                 "\n\nWhat would you like to do?" +
                 $"\n1) See owned {_characterSuperModel.CombatStyle} Items" +
                 $"\n2) See known {_characterSuperModel.CombatStyle} Attacks" +
