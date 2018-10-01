@@ -12,6 +12,7 @@ namespace Services
         private InventoryServices _inventoryServices;
         private ExploringServices _exploringServices;
         private CharacterSuperModel _characterSuperModel;
+        private SaveServices _saveServices = new SaveServices();
 
         public VillageServices(CharacterSuperModel characterSuperModel, ExploringServices exploringServices)
         {
@@ -28,6 +29,7 @@ namespace Services
             while (!leaveVillage)
             {
                 PrintMenuOptions();
+                _saveServices.SaveGame(_characterSuperModel);
                 var input = GameService.ParseIntput();
                 switch (input)
                 {

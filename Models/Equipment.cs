@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-
     public enum GearType { Melee = 1, Ranged, Mage }
 
     public class Equipment

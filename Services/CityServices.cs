@@ -13,6 +13,7 @@ namespace Services
         private ExploringServices _exploringServices;
         private CharacterSuperModel _characterSuperModel;
         private List<Equipment> _shopEquipmentList;
+        private SaveServices _saveServices = new SaveServices();
 
         public CityServices(CharacterSuperModel characterSuperModel, ExploringServices exploringServices)
         {
@@ -30,6 +31,7 @@ namespace Services
             while (!leaveCity)
             {
                 PrintMenuOptions();
+                _saveServices.SaveGame(_characterSuperModel);
                 var input = GameService.ParseIntput();
                 switch (input)
                 {
@@ -71,6 +73,7 @@ namespace Services
             while (!leaveGuild)
             {
                 PrintGuildMenu();
+                _saveServices.SaveGame(_characterSuperModel);
                 switch (GameService.ParseIntput())
                 {
                     case 1:
@@ -105,6 +108,7 @@ namespace Services
             while (!leaveStore)
             {
                 PrintStoreMenu();
+                _saveServices.SaveGame(_characterSuperModel);
                 switch (GameService.ParseIntput())
                 {
                     case 1:
@@ -136,6 +140,7 @@ namespace Services
                 {
                     chosenCategory = true;
                     PrintShopCategory();
+                    _saveServices.SaveGame(_characterSuperModel);
                     switch (GameService.ParseIntput())
                     {
                         case 1:
@@ -159,20 +164,17 @@ namespace Services
                 }
                 if (exit == true) break;
 
-                GameService.NewPage($"\nWhich item would you like to buy?" +
-                    $"\n{"ID",-2}  {"Name",-18}  {"Type",-6}  {"Lvl",-4}  {"ATK+",-4}  {"HP+",-4}", cat);
                 var canBuyItems = GetShopItems(cat);
-                PrintShopItems(canBuyItems);
-                BuyWeapon(canBuyItems);
-                Console.ReadKey();
+                BuyWeapon(canBuyItems, cat);
             }
         }
 
-        private void BuyWeapon(List<Equipment> shoppingList)
+        private void BuyWeapon(List<Equipment> shoppingList, string key)
         {
             var shopping = true;
             while (shopping)
             {
+                PrintShopItems(shoppingList, key);
                 var response = GameService.ParseIntput();
                 var existingItem = shoppingList.FirstOrDefault(i => i.GearID == response);
                 if (existingItem != null)
@@ -180,8 +182,11 @@ namespace Services
                     _characterSuperModel.CharacterEquipment.Add(existingItem);
                     break;
                 }
+                Console.WriteLine("Invalid input");
+                Console.ReadKey();
             }
             Console.WriteLine("Item bought!");
+            Console.ReadKey();
         }
 
         private bool Leave()
@@ -243,8 +248,10 @@ namespace Services
             return canBuy;
         }
 
-        private void PrintShopItems(List<Equipment> itemList)
+        private void PrintShopItems(List<Equipment> itemList, string key)
         {
+            GameService.NewPage($"\nWhich item would you like to buy?" +
+                $"\n{"ID",-2}  {"Name",-18}  {"Type",-6}  {"Lvl",-4}  {"ATK+",-4}  {"HP+",-4}", key);
             foreach (Equipment item in itemList)
             {
                 Console.WriteLine(item);
