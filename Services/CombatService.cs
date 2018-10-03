@@ -83,7 +83,7 @@ namespace Services
                     "[1. Attack]\n" +
                     "[2. Drink Hp Pot]: " + (CurrentStatus.PotionCount) + " Remaining \n" +
                     "[3. Run]\n"
-                    ,"battle");
+                    , "battle");
                 char response = Console.ReadKey().KeyChar;
 
                 switch (response)
@@ -136,13 +136,13 @@ namespace Services
             if (_characterSuperModel.CharacterHealth > 0)
             {
                 _characterSuperModel.CharacterLevel++;
-                _characterSuperModel.CharacterBaseHealth += 5;
-                _characterSuperModel.CharacterMaxHealth += 5;
+                _characterSuperModel.CharacterBaseHealth += 2;
+                _characterSuperModel.CharacterMaxHealth += 2;
                 _characterSuperModel.CharacterHealth = _characterSuperModel.CharacterMaxHealth;
                 _characterSuperModel.Gold += ((enemy.ATK) * 2);
             }
             else { _characterSuperModel.IsDead = true; }
-            EndFight:;
+        EndFight:;
         }
 
         private void EnemyAtk(int enemyAtk)
@@ -150,7 +150,7 @@ namespace Services
             int chance = rnd.Next(1, 100);
             if (chance > 15)
             {
-                Console.WriteLine("You are hit for "+(enemyAtk)+"!!!");
+                Console.WriteLine("You are hit for " + (enemyAtk) + "!!!");
                 _characterSuperModel.CharacterHealth -= enemyAtk;
                 Console.ReadLine();
             }
@@ -167,13 +167,13 @@ namespace Services
             if (chance > 30)
             {
                 Console.WriteLine("You hit for " + (yourAtk) + " attack!!!");
-                Console.ReadLine();
+                Thread.Sleep(750);
                 return yourAtk;
             }
             else if (chance > 10 && chance <= 30)
             {
                 Console.WriteLine("The Enemy dodged the attack!!!");
-                Console.ReadLine();
+                Thread.Sleep(750);
                 return 0;
             }
             else
@@ -190,7 +190,6 @@ namespace Services
         }
         private Attacks DisplayAndPickAtkOptions(List<Attacks> attacks)
         {
-
             List<Attacks> attacksLocal = new List<Attacks>();
 
             string b = _characterSuperModel.CombatStyle.ToString();
@@ -200,7 +199,6 @@ namespace Services
             Console.WriteLine("Choose An Atk:");
             foreach (var attack in attacks)
             {
-
                 string a = attack.TypeOfAtk.ToString();
                 if (a == b)
                 {
