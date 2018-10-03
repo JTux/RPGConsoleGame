@@ -28,7 +28,7 @@ namespace Services
         public bool Commute()
         {
             var eventChance = GetChance();
-            if (eventChance < 30) NegativeCommute();
+            if (eventChance < 50) NegativeCommute();
             else if (eventChance < 85) NeutralCommute();
             else PositiveCommute();
             return true;
@@ -37,8 +37,8 @@ namespace Services
         public bool Explore()
         {
             var eventChance = GetChance();
-            if (eventChance < 55) NegativeEvent();
-            else if (eventChance < 75) NeutralEvent();
+            if (eventChance < 75) NegativeEvent();
+            else if (eventChance < 95) NeutralEvent();
             else PositiveEvent();
             if (_characterSuperModel.IsDead) return true;
             else return false;

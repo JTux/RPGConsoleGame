@@ -197,7 +197,6 @@ namespace Services
 
         TopList:
             int i = 0;
-            Console.Clear();
             Console.WriteLine("Choose An Atk:");
             foreach (var attack in attacks)
             {
@@ -211,7 +210,6 @@ namespace Services
                 }
             }
             var resp = (Console.ReadKey().KeyChar).ToString();
-            Console.Clear();
             if (int.TryParse(resp, out int respInt))
             {
                 if (respInt < (attacksLocal.Count + 1) && respInt > 0)
