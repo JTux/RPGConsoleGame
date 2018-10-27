@@ -190,7 +190,7 @@ namespace Services
                 if (count != 1) s = "s";
                 Console.WriteLine($"You learned {count} new attack{s}");
             }
-            else Console.WriteLine($"You are not ready to learn any new attacks yet.");
+            else Console.WriteLine($"You are not ready to learn any new attacks yet. You can learn a new attack every 5th level.");
             Console.ReadKey();
         }
 

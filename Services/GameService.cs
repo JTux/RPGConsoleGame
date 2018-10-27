@@ -155,8 +155,7 @@ namespace Services
                         break;
                     default:
                         pickingStyle = true;
-                        Console.WriteLine("Invalid input");
-                        Console.ReadKey();
+                        Console.Write("Invalid Input: ");
                         break;
                 }
             }
